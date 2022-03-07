@@ -92,7 +92,7 @@
 		\begin{itemize}
 			\item $\ell_1$ norm. It holds that
 			      $\|t_k-\hat{y}\|_1=\sum_i|t_{k,i}-\hat{y}_i|=\sum_{i\ne
-			      k}|\hat{y}_i|+|1-\hat{y}_k|$. Hence, we get
+					      k}|\hat{y}_i|+|1-\hat{y}_k|$. Hence, we get
 			      \begin{equation}\label{2.1-inequality}
 				      \normone{k'} < \normone{k^*}\Rightarrow |\hat{y}_{k^*}|-|1-\hat{y}_{k^*}|
 				      < |\hat{y}_{k'}|-|1-\hat{y}_{k'}|.
@@ -106,6 +106,53 @@
 			      we get that $\hat{y}_{k^*}<\hat{y}_{k'}$, reaching a
 			      contradiction.
 		\end{itemize}
+	\end{soln}
+
+	\item\label{exact-distribution} Show how to compute the Bayes decision
+	boundary for the simulation example in Figure 2.5.
+	\begin{soln}
+		If we know the exact probability distribution $\Pr[G,X]$,
+		$X\in\mathbb{R}^p$, $G\in \mathcal{G}=\{B,O\}$, then we can probably
+		also derive $f(X)=\Pr[B|X]=\Pr[B,X]/\Pr[X]$, namely the probability that
+		$X$ maps to blue in reality. This assume that we also know $\Pr[X]$
+		which is not necessary. Of course, $\Pr[O|X]=1-\Pr[B|X]$. So now, all we
+		have to do is to check for each $x\in\mathbb{R}^p$, whether $f(x)>1/2$.
+		For the case where $x\in\mathbb{R}$, this is trivial. We simply solve
+		the equation $f(x)=1/2$. This also hold in general. So the points (in
+		$\mathbb{R}$), the line (in $\mathbb{R}^2$), and the $(p-1)$-dimensional
+		hyperplane (in $\mathbb{R}^p$), is the solution to the equation
+		$f(x)=1/2$.
+	\end{soln}
+
+	\item\label{eq2.24} Derive equation 2.24. Consider $N$ data points uniformly
+	sampled in a $p$-dimensional unit ball centered at the origin. Show that the
+	median distance from the origin to the closest data point is given by the 
+	expression $$d(p,N)=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.$$
+	\begin{soln}
+		We start with the cumulative distribution function (CDF) of the distance 
+		of a random point from the origin. The volume of a $p$-dimensional ball of 
+		radius $d$ is $V_p(d)=c_pd^p$, where $c_p$ is a value that does not depend
+		on $d$. Therefore,
+		\begin{equation}\tag{First trick to remember}
+			F_D(d)=\Pr[D\le d]=\frac{V_p(d)}{V_p(1)}=d^p.
+		\end{equation}
+		Now it is useful to compute the CDF of the distance of the closest point
+		$C=\min_{i\in[N]} D_i$. We have that 
+		\begin{equation}
+			\begin{split}
+				F_C(d) &= \Pr[C\le d] \\
+				&= 1-\Pr[C\ge d] \\
+				&= 1-\Pr\left[\min_{i\in[N]} D_i \ge d\right] \\
+				&= 1-\Pr[\forall i\in[N], D_i \ge d] \\
+				&= 1-\prod_{i\in[N]}\Pr[D_i \ge d] \\
+				&= 1-\Pr[D \ge d]^N \\
+				&= 1-(1-\Pr[D \le d])^N \\
+				&= 1-(1-d^p)^N.
+			\end{split}
+		\end{equation}
+		By definition, the median $m$ is defined as $F_C(m)=1/2$. Hence, we get
+		that $(1-m^p)^N=1/2$ and solving for $m$, we get
+		\[m=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.\]
 	\end{soln}
 
 \end{enumerate}
