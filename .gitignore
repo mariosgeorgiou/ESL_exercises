@@ -1,4 +1,4 @@
-/exercises.aux
+*.aux
 /exercises.fdb_latexmk
 /exercises.fls
 /exercises.log
