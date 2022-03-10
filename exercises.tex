@@ -137,18 +137,18 @@
 
 	\item\label{eq2.24} Derive equation 2.24. Consider $N$ data points uniformly
 	sampled in a $p$-dimensional unit ball centered at the origin. Show that the
-	median distance from the origin to the closest data point is given by the 
+	median distance from the origin to the closest data point is given by the
 	expression $$d(p,N)=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.$$
 	\begin{soln}
-		We start with the cumulative distribution function (CDF) of the distance 
-		of a random point from the origin. The volume of a $p$-dimensional ball of 
-		radius $d$ is $V_p(d)=c_pd^p$, where $c_p$ is a value that does not depend
-		on $d$. Therefore,
+		We start with the cumulative distribution function (CDF) of the distance
+		of a random point from the origin. The volume of a $p$-dimensional ball
+		of radius $d$ is $V_p(d)=c_pd^p$, where $c_p$ is a value that does not
+		depend on $d$. Therefore,
 		\begin{equation}\tag{First trick to remember}
 			F_D(d)=\Pr[D\le d]=\frac{V_p(d)}{V_p(1)}=d^p.
 		\end{equation}
 		Now it is useful to compute the CDF of the distance of the closest point
-		$C=\min_{i\in[N]} D_i$. We have that 
+		$C=\min_{i\in[N]} D_i$. We have that
 		\begin{equation}
 			\begin{split}
 				F_C(d) &= \Pr[C\le d] \\
@@ -166,12 +166,12 @@
 		\[m=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.\]
 	\end{soln}
 
-	\item \label{multi-normal} Consider inputs drawn from a spherical
-	multinormal distribution $X\sim N(0,\mathbf{I}_p)$. The squared distance
-	from any sample point to the origin has a $\chi_p^2$ distribution with mean
-	$p$. Consider a prediction point $x_0$ drawn from this distribution, and let
-	$a=x_0/\|x_0\|$ be an associated unit vector. Let $z_i=a^Tx_i$ be the
-	projection of each of the training points on this direction.
+	\item\label{multi-normal} Consider inputs drawn from a spherical multinormal
+	distribution $X\sim N(0,\mathbf{I}_p)$. The squared distance from any sample
+	point to the origin has a $\chi_p^2$ distribution with mean $p$. Consider a
+	prediction point $x_0$ drawn from this distribution, and let $a=x_0/\|x_0\|$
+	be an associated unit vector. Let $z_i=a^Tx_i$ be the projection of each of
+	the training points on this direction.
 
 	Show that the $z_i$ are distributed according to $N(0,1)$ with expected
 	squared distance from the origin $1$, while the target point has expected
@@ -179,12 +179,13 @@
 
 	\begin{soln}
 		We use the fact that for any $a\in\mathbb{R}^p$, if $x\sim
-		N(0,\mathbf{I}_p)$, then $a^Tx\sim
-		N\left(\sum_ja_j\mu_j,\sum_ja_j^2\sigma_j^2\right)$, where
-		$\mu_j=E(x_j)$ and $\sigma_j=V(x_j)$ and $j\in[p]$. Since $\sigma_j=1$
-		and $\mu_j=0$, we get that $a^Tx\sim N\left(0,\sum_ja_j^2\right)$. Given
-		that $\|a\|$ is a unit vector, we get that $a^Tx\sim N\left(0,1\right)$.
-		Hence $|z|=|a^Tx|=\chi_1^2=1$. 
+			N(0,\mathbf{I}_p)$, then $a^Tx\sim
+			N\left(\sum_ja_j\mu_j,\sum_ja_j^2\sigma_j^2\right)$, where
+		$\mu_j=E(x_j)$ and $\sigma_j=V(x_j)$ and $j\in[p]$. Since
+		$\sigma_j=1$ and $\mu_j=0$, we get that $a^Tx\sim
+			N\left(0,\sum_ja_j^2\right)$. Given that $\|a\|$ is a unit vector,
+		we get that $a^Tx\sim N\left(0,1\right)$. Hence
+		$|z|=|a^Tx|=\chi_1^2=1$.
 	\end{soln}
 
 \end{enumerate}
