@@ -50,9 +50,11 @@
 \newcommand{\Oset}{\varnothing}
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
+\newcommand{\XX}{\mathbf{X}} \newcommand{\TT}{\mathcal{T}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
+\DeclareMathOperator*{\EPE}{EPE}
 
 
 %Pagination stuff.
@@ -80,10 +82,10 @@
 \subsection*{Exercises for Section 2}
 
 \begin{enumerate}
-	\item\label{k-classes} Suppose each of $K$-classes has an associated target
-	$t_k$, which is a vector of all zeros, except a one in the $k$th position.
-	Show that classifying to the largest element of $\hat{y}$ amounts to
-	choosing the closest target, $\min_k\|t_k-\hat{y}\|$, if the elements of
+	\item\label{ex:k-classes} Suppose each of $K$-classes has an associated
+	target $t_k$, which is a vector of all zeros, except a one in the $k$th
+	position. Show that classifying to the largest element of $\hat{y}$ amounts
+	to choosing the closest target, $\min_k\|t_k-\hat{y}\|$, if the elements of
 	$\hat{y}$ sum to one.
 	\begin{soln}
 		\newcommand{\normone}[1]{\sum_{i\ne #1}|\hat{y}_i|+|1-\hat{y}_{#1}|} Let
@@ -108,7 +110,7 @@
 		\end{itemize}
 	\end{soln}
 
-	\item\label{exact-distribution} Show how to compute the Bayes decision
+	\item\label{ex:exact-distribution} Show how to compute the Bayes decision
 	boundary for the simulation example in Figure 2.5.
 	\begin{soln}
 		If we know the exact probability distribution $\Pr[G,X]$,
@@ -135,10 +137,10 @@
 		\end{figure}
 	\end{soln}
 
-	\item\label{eq2.24} Derive equation 2.24. Consider $N$ data points uniformly
-	sampled in a $p$-dimensional unit ball centered at the origin. Show that the
-	median distance from the origin to the closest data point is given by the
-	expression $$d(p,N)=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.$$
+	\item\label{ex:eq2.24} Derive equation 2.24. Consider $N$ data points
+	uniformly sampled in a $p$-dimensional unit ball centered at the origin.
+	Show that the median distance from the origin to the closest data point is
+	given by the expression $$d(p,N)=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.$$
 	\begin{soln}
 		We start with the cumulative distribution function (CDF) of the distance
 		of a random point from the origin. The volume of a $p$-dimensional ball
@@ -166,12 +168,12 @@
 		\[m=\left(1-\frac{1}{2}^{1/N}\right)^{1/p}.\]
 	\end{soln}
 
-	\item\label{multi-normal} Consider inputs drawn from a spherical multinormal
-	distribution $X\sim N(0,\mathbf{I}_p)$. The squared distance from any sample
-	point to the origin has a $\chi_p^2$ distribution with mean $p$. Consider a
-	prediction point $x_0$ drawn from this distribution, and let $a=x_0/\|x_0\|$
-	be an associated unit vector. Let $z_i=a^Tx_i$ be the projection of each of
-	the training points on this direction.
+	\item\label{ex:multi-normal} Consider inputs drawn from a spherical
+	multinormal distribution $X\sim N(0,\mathbf{I}_p)$. The squared distance
+	from any sample point to the origin has a $\chi_p^2$ distribution with mean
+	$p$. Consider a prediction point $x_0$ drawn from this distribution, and let
+	$a=x_0/\|x_0\|$ be an associated unit vector. Let $z_i=a^Tx_i$ be the
+	projection of each of the training points on this direction.
 
 	Show that the $z_i$ are distributed according to $N(0,1)$ with expected
 	squared distance from the origin $1$, while the target point has expected
@@ -185,9 +187,29 @@
 		$\sigma_j=1$ and $\mu_j=0$, we get that $a^Tx\sim
 			N\left(0,\sum_ja_j^2\right)$. Given that $\|a\|$ is a unit vector,
 		we get that $a^Tx\sim N\left(0,1\right)$. Hence
-		$|z|=|a^Tx|=\chi_1^2=1$.
+		$|z|=|a^Tx|\sim\chi_1^2$ and $E[|z|]=1$.
 	\end{soln}
 
+	\item\label{ex:eq2.27} Suppose that we know that the true relationship
+	between $Y$ and $X$ is linear,
+	\begin{equation}
+		Y=X^T\beta+\varepsilon, \tag{2.26}
+	\end{equation}
+	where $\varepsilon\sim N(0,\sigma^2)$ and we fit the model by least squares
+	to the training data. For an arbitrary test point $x_0$, we have $\hat
+		y_0=x_0^T\hat\beta$, which can be written as $\hat y_0=x_0^T\beta +
+		\sum_{i-1}^N\ell_i(x_0)\varepsilon_i$, where $\ell_i(x_0)$ is the $i$th
+	element of $\XX(\XX^T\XX)^{-1}x_0$. Show that
+	\[
+		\EPE(x_0)=\sigma^2+E_\TT x_0^T(\XX^T\XX)^{-1}x_0\sigma^2+0^2. \tag{2.27}\]
+
+	Additionally, suppose $N$ is large and $\TT$ were selected at random.
+	Assuming $E(X)=0$, then $\XX^T\XX\to N\Cov(X)$. Show that
+	\[E_{x_0}\EPE(x_0)\approx\sigma^2(p/N)+\sigma^2. \tag{2.28}\]
+
+	\begin{soln}
+
+	\end{soln}
 \end{enumerate}
 
 
