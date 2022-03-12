@@ -10,6 +10,7 @@
 \usepackage{mathrsfs}
 \usepackage{color}
 \usepackage{cleveref}
+\usepackage{mathtools}
 
 %Here I define some theorem styles and shortcut commands for symbols I use often
 \theoremstyle{definition}
@@ -50,11 +51,15 @@
 \newcommand{\Oset}{\varnothing}
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
-\newcommand{\XX}{\mathbf{X}} \newcommand{\TT}{\mathcal{T}}
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\YY}{\mathbf{Y}}
+\newcommand{\TT}{\mathcal{T}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
 \DeclareMathOperator*{\EPE}{EPE}
+\DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\Bias}{Bias}
 
 
 %Pagination stuff.
@@ -126,7 +131,7 @@
 		$f(x)=\Pr[B|X]=1/2$. See Figure~\ref{fig:exercise2.2} for another
 		example.
 
-		\begin{figure}[h]
+		\begin{figure}[ht]
 			\label{fig:exercise2.2}
 			\includegraphics[width=8cm]{plots/ex22.png}
 			\centering
@@ -201,14 +206,68 @@
 		\sum_{i-1}^N\ell_i(x_0)\varepsilon_i$, where $\ell_i(x_0)$ is the $i$th
 	element of $\XX(\XX^T\XX)^{-1}x_0$. Show that
 	\[
-		\EPE(x_0)=\sigma^2+E_\TT x_0^T(\XX^T\XX)^{-1}x_0\sigma^2+0^2. \tag{2.27}\]
-
+		\EPE(x_0)=\sigma^2+E_\TT x_0^T(\XX^T\XX)^{-1}x_0\sigma^2+0^2. \tag{2.27},\]
+	where you can use the fact that for any $\XX$,
+	\[\Cov[\hat \beta]=(\XX^T\XX)^{-1}\sigma^2. \label{eq:cov}\tag{3.8}\]
 	Additionally, suppose $N$ is large and $\TT$ were selected at random.
 	Assuming $E(X)=0$, then $\XX^T\XX\to N\Cov(X)$. Show that
 	\[E_{x_0}\EPE(x_0)\approx\sigma^2(p/N)+\sigma^2. \tag{2.28}\]
 
 	\begin{soln}
-
+		{
+			\newcommand{\Exp}{E_{\TT,\varepsilon}}
+			In the first question, the test point $x_0$ is arbitrary and not sampled
+			from the distribution. Thus the randomness is only over:
+			\begin{itemize}
+				\item the samples $\TT$,
+				\item the error $\varepsilon$.
+			\end{itemize}
+			In the second part, we also sample $x_0$ and hence we consider the
+			expectation of $\EPE(x_0)$.
+			\begin{enumerate}
+				\item We start by showing that the expected prediction error equals
+				      the sum of the variance of the system, the variance of the model and
+				      the squared bias of the model:
+				      \begin{equation*}
+					      \begin{split}
+						      \EPE(x_0) &= \Exp[(y_0-\hat y_0)^2] \\
+						      &= \Exp[y_0^2-2y_0\hat y_0 + \hat y_0^2] \\
+						      &= \Exp[y_0^2]-2\Exp[y_0\hat y_0] + \Exp[\hat y_0^2] \\
+						      &= \Exp[y_0^2]-2x_0^T\beta\Exp[\hat y_0] + \Exp[\hat y_0^2] \\
+						      &= \Exp[y_0^2]\boxed{-\Exp[y_0]^2+\Exp[y_0]^2}-2x_0^T\beta\Exp[\hat y_0] + \Exp[\hat y_0^2] - \boxed{\Exp[\hat y_0]^2 + \Exp[\hat y_0]^2} \\
+						      &= \Var[y_0] + \Var[\hat y_0] + \left(\Exp[\hat y_0]-x_0^T\beta\right)^2,
+					      \end{split}
+				      \end{equation*}
+				      where the third line follows from the fact that
+				      \[\Exp[y_0\hat y_0]=\Exp[(x_0^T\beta+\varepsilon)\hat
+						      y_0]=x_0^T\beta\Exp[\hat y_0]+\Exp[\varepsilon\hat y_0]\]
+				      and $\Exp[\varepsilon\hat y_0]=\Exp[\varepsilon]\Exp[\hat
+						      y_0]=0$, since $\varepsilon$ is independent from $\hat
+					      y_0$.
+				      Now, we have that $\Var[y_0]=\sigma^2$. Moreover,
+				      \begin{equation}
+					      \begin{split}
+						      \Exp[\hat y_0] &= \Exp\left[x_0^T\beta + \sum_{i-1}^N\ell_i(x_0)\varepsilon_i\right] \\
+							  &= x_0^T\beta + \sum_{i-1}^N\Exp[\ell_i(x_0)\varepsilon_i] \\
+							  &= x_0^T\beta + \sum_{i-1}^N\Exp[\ell_i(x_0)]\Exp[\varepsilon_i] \\
+							  &= x_0^T\beta,
+					      \end{split}
+				      \end{equation}
+					  since $\varepsilon_i$ is independent of $x_0$ and $\XX$.
+					  Hence, $\Bias(\hat y_0)=\left(\Exp[\hat
+					  y_0]-x_0^T\beta\right)=0$. Last, we want to calculate the
+					  variance of our prediction $\Var[\hat y_0]$. We have 
+					  \begin{equation}
+						  \begin{split}
+							  \Var[\hat y_0] &= \Var[x_0^T\hat\beta] \\
+							  &= x_0^T\Cov[\hat\beta]x_0 \\
+							  &= x_0^T(\XX^T\XX)^{-1}\sigma^2x_0,
+						  \end{split}
+					  \end{equation}
+					  where the last line comes from~\cref{eq:cov}.
+					  
+			\end{enumerate}
+		}
 	\end{soln}
 \end{enumerate}
 
