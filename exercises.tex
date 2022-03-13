@@ -51,13 +51,18 @@
 \newcommand{\Oset}{\varnothing}
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
-\newcommand{\XX}{\mathbf{X}} \newcommand{\YY}{\mathbf{Y}}
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\YY}{\mathbf{Y}}
 \newcommand{\TT}{\mathcal{T}}
+\newcommand{\WW}{\mathbf{W}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
 \DeclareMathOperator*{\EPE}{EPE} \DeclareMathOperator*{\Var}{Var}
 \DeclareMathOperator*{\Bias}{Bias} \DeclareMathOperator*{\tr}{trace}
+\DeclareMathOperator*{\RSS}{RSS}
+\DeclareMathOperator*{\WRSS}{WRSS}
+\DeclareMathOperator*{\diag}{diag}
 
 
 %Pagination stuff.
@@ -285,7 +290,59 @@
 					      \end{split}
 				      \end{equation}
 			\end{enumerate}
-		}
+		} We see that the function
+		$f(p)=E_{x_0}\EPE(x_0)=\sigma^2(p/N)+\sigma^2$ increases linearly with
+		$p$, with slope $f'(p)=\sigma^2/N$. Hence as long as we have
+		sufficiently many samples $N$ this increase becomes negligible. In other
+		words, even if we have a lot of dimensions, the expected $\EPE$ remains
+		constant. Of course, the reason is that we imposed heavy restrictions on
+		the class of models being fitted.
+	\end{soln}
+
+	\item\label{ex:2.6} Consider a regression problem with inputs $x_i$ and
+	outputs $y_i$, and a parameterized model $f_\theta(x)$ to be fit by least
+	squares. Show that if there are observations with \emph{tied} or
+	\emph{identical} values of $x$, then the fit can be obtained from a reduced
+	weighted least squares problem.
+
+	\begin{soln}
+		The weighted least squares problem is defined as the problem of
+		minimizing the value
+		\[\WRSS\nolimits_{(x_i,y_i,w_i)}(\beta)=\sum_{i=1}^Nw_i(y_i-\hat f_\beta(x_i))^2.\]
+		It generasizes $\RSS$ since by setting $w_i=1$ we
+		get the $\RSS$. The idea behind $\WRSS$ is that some pairs $(x_i,y_i)$
+		may have errors and some may be more accurate. By giving them weights,
+		we reward the more accurate ones and we penalize the less accurate.
+
+		A reduced least squares problem is one that uses fewer observations than
+		available; $N'<N$.
+
+		Suppose that we have $N$ observations $(x_i,y_i)$ with some of them
+		sharing the same $x_i$. Suppose we have $N'$ distinct $x_i$s and for
+		each distinct $x_i$, we have $N_i$ observations, so
+		$N=\sum_{i=1}^{N'}N_i$. We wish to compute the value
+		$\argmin_\beta \RSS(\beta)$. We will show that
+		\[\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta)=\argmin_\beta \WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta).\]
+		We have{
+		\newcommand{\fx}{\hat f_\beta(x_i)}
+		\newcommand{\fs}{\hat f^2_\beta(x_i)}
+		\begin{equation}
+			\begin{split}
+				\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta) &=
+				\argmin_\beta\sum_{i=1}^N(y_i-\fx)^2 \\
+				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i-\fx)^2 \\
+				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i^2-2y_i\fx + \fs) \\
+				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(-2y_i\fx + \fs) \\
+				&= \argmin_\beta\sum_{i=1}^{N'}(-2N_i\overline y_i\fx + N_i\fs)\\
+				&= \argmin_\beta\sum_{i=1}^{N'}N_i(-2\overline y_i\fx + \fs)\\
+				&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i^2-2\overline y_i\fx + \fs)\\
+				&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i-\fx)^2 \\
+				&= \argmin_\beta\WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta),
+			\end{split}
+		\end{equation}}
+		where the fourth and the seventh lines come from the fact that
+		$\argmin_\beta (f(\beta)+c)=\argmin_\beta{f(\beta)}$ for any constant
+		$c$.
 	\end{soln}
 \end{enumerate}
 
