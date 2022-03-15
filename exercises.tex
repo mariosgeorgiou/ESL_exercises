@@ -51,17 +51,14 @@
 \newcommand{\Oset}{\varnothing}
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
-\newcommand{\XX}{\mathbf{X}}
-\newcommand{\YY}{\mathbf{Y}}
-\newcommand{\TT}{\mathcal{T}}
-\newcommand{\WW}{\mathbf{W}}
+\newcommand{\XX}{\mathbf{X}} \newcommand{\YY}{\mathbf{Y}}
+\newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
 \DeclareMathOperator*{\EPE}{EPE} \DeclareMathOperator*{\Var}{Var}
 \DeclareMathOperator*{\Bias}{Bias} \DeclareMathOperator*{\tr}{trace}
-\DeclareMathOperator*{\RSS}{RSS}
-\DeclareMathOperator*{\WRSS}{WRSS}
+\DeclareMathOperator*{\RSS}{RSS} \DeclareMathOperator*{\WRSS}{WRSS}
 \DeclareMathOperator*{\diag}{diag}
 
 
@@ -79,9 +76,8 @@
 
 
 \begin{center}
-	{\Large Math 3220-1 \hspace{0.5cm} HW 1}\\
-	\textbf{NAME}\\ %You should put your name here
-	Due: DATE %You should write the date here.
+	{\Large Elements of Statistical Learning, Solutions}\\
+	Marios\\ %You should put your name here
 \end{center}
 
 \vspace{0.2 cm}
@@ -308,11 +304,11 @@
 	\begin{soln}
 		The weighted least squares problem is defined as the problem of
 		minimizing the value
-		\[\WRSS\nolimits_{(x_i,y_i,w_i)}(\beta)=\sum_{i=1}^Nw_i(y_i-\hat f_\beta(x_i))^2.\]
-		It generasizes $\RSS$ since by setting $w_i=1$ we
-		get the $\RSS$. The idea behind $\WRSS$ is that some pairs $(x_i,y_i)$
-		may have errors and some may be more accurate. By giving them weights,
-		we reward the more accurate ones and we penalize the less accurate.
+		\[\WRSS\nolimits_{(x_i,y_i,w_i)}(\beta)=\sum_{i=1}^Nw_i(y_i-\hat
+			f_\beta(x_i))^2.\] It generasizes $\RSS$ since by setting $w_i=1$ we get
+		the $\RSS$. The idea behind $\WRSS$ is that some pairs $(x_i,y_i)$ may
+		have errors and some may be more accurate. By giving them weights, we
+		reward the more accurate ones and we penalize the less accurate.
 
 		A reduced least squares problem is one that uses fewer observations than
 		available; $N'<N$.
@@ -320,29 +316,94 @@
 		Suppose that we have $N$ observations $(x_i,y_i)$ with some of them
 		sharing the same $x_i$. Suppose we have $N'$ distinct $x_i$s and for
 		each distinct $x_i$, we have $N_i$ observations, so
-		$N=\sum_{i=1}^{N'}N_i$. We wish to compute the value
-		$\argmin_\beta \RSS(\beta)$. We will show that
-		\[\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta)=\argmin_\beta \WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta).\]
-		We have{
-		\newcommand{\fx}{\hat f_\beta(x_i)}
-		\newcommand{\fs}{\hat f^2_\beta(x_i)}
-		\begin{equation}
-			\begin{split}
-				\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta) &=
-				\argmin_\beta\sum_{i=1}^N(y_i-\fx)^2 \\
-				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i-\fx)^2 \\
-				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i^2-2y_i\fx + \fs) \\
-				&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(-2y_i\fx + \fs) \\
-				&= \argmin_\beta\sum_{i=1}^{N'}(-2N_i\overline y_i\fx + N_i\fs)\\
-				&= \argmin_\beta\sum_{i=1}^{N'}N_i(-2\overline y_i\fx + \fs)\\
-				&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i^2-2\overline y_i\fx + \fs)\\
-				&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i-\fx)^2 \\
-				&= \argmin_\beta\WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta),
-			\end{split}
-		\end{equation}}
-		where the fourth and the seventh lines come from the fact that
-		$\argmin_\beta (f(\beta)+c)=\argmin_\beta{f(\beta)}$ for any constant
-		$c$.
+		$N=\sum_{i=1}^{N'}N_i$. We wish to compute the value $\argmin_\beta
+			\RSS(\beta)$. We will show that
+		\[\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta)=\argmin_\beta
+			\WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta).\] We have{
+				\newcommand{\fx}{\hat f_\beta(x_i)}
+				\newcommand{\fs}{\hat f^2_\beta(x_i)}
+				\begin{equation}
+					\begin{split}
+						\argmin_\beta \RSS\nolimits_{(x_i,y_i)}(\beta) &=
+						\argmin_\beta\sum_{i=1}^N(y_i-\fx)^2 \\
+						&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i-\fx)^2 \\
+						&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(y_i^2-2y_i\fx + \fs) \\
+						&= \argmin_\beta\sum_{i=1}^{N'}\sum_{j=1}^{N_i}(-2y_i\fx + \fs) \\
+						&= \argmin_\beta\sum_{i=1}^{N'}(-2N_i\overline y_i\fx + N_i\fs)\\
+						&= \argmin_\beta\sum_{i=1}^{N'}N_i(-2\overline y_i\fx + \fs)\\
+						&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i^2-2\overline y_i\fx + \fs)\\
+						&= \argmin_\beta\sum_{i=1}^{N'}N_i(\overline y_i-\fx)^2 \\
+						&= \argmin_\beta\WRSS\nolimits_{(x_i,\overline y_i,N_i)}(\beta),
+					\end{split}
+				\end{equation}}
+		where the fourth and the seventh lines come from the fact that for any
+		function $f$ and $c\in\mathbb R$, it holds that $\argmin_\beta (f(\beta)+c)=\argmin_\beta{f(\beta)}$.
+	\end{soln}
+
+	\item Suppose we have a sample of $N$ pairs $x_i,y_i$ drawn i.i.d from the
+	distribution characterized as follows:
+	\begin{itemize}
+		\item[] $x_i\sim h(x)$, the design density
+		\item[] $y_i=f(x_i)+\varepsilon_i$, $f$ is the regression function
+		\item[] $\varepsilon_i\sim(0,\sigma^2)$ (mean zero, variance $\sigma^2$)
+	\end{itemize}
+	We construct an estimator for $f$ \emph{linear} in the $y_i$,
+	\[\hat f(x_0)=\sum_{i=1}^N\ell_i(x_0;\mathcal{X})y_i,\] where the weights
+	$\ell_i(x_0;\mathcal{X})$ do not depend on the $y_i$, but do depend on the
+	entire training sequence of $x_i$, denoted here by $\mathcal{X}$.
+	\begin{enumerate}
+		\item Show that the linear regression and $k$-nearest-neighbor
+		regression are members of this class of estimators. Describe explicitly
+		the weights $\ell_i(x_0;\mathcal{X})$ in each of these cases.
+		\item Decompose the conditional mean-squared error
+		\[E_{\mathcal{Y}|\mathcal{X}}(f(x_0)-\hat f(x_0))^2\] into a conditional
+		squared bias and a conditional variance component. Like $\mathcal{X}$,
+		$\mathcal{Y}$ represents the entire training sequence of $y_i$.
+		\item Decompose the mean-squared error $E_{\mathcal{X,Y}}(f(x_0)-\hat
+		f(x_0))^2$ into a squared bias and a variance component.
+		\item Establish a relationship between the squared biases and variances
+		in the above two cases.
+	\end{enumerate}
+
+	\begin{soln}{
+		\renewcommand{\XX}{\mathcal{X}}
+		\renewcommand{\YY}{\mathcal{Y}}
+		\begin{enumerate}
+			\item For linear regression, we have that $\hat f(x_0) =
+			x^T(\XX^T\XX)^{-1}\XX y=\sum_{i=1}^N\ell_i(x_0;\XX)y_i$, where
+			$\ell_i(x_0;\XX)$ is the $i$th element of the vector
+			$x^T(\XX^T\XX)^{-1}\XX$. For the $k$-nearest neighbor, we have that
+			$\ell_i(x_0;\XX)=\frac{1}{k}I(x_i\in N_k(x_0,\XX))$, where
+			$N_k(x_0,\XX)$ is the set of the $k$ closest points to $x_0$.
+
+			\item We have that
+			\begin{equation}
+				\begin{split}
+					E_{\YY/\XX}[(f(x_0)-\hat f(x_0))^2]
+					&= E_{\YY/\XX}[f^2(x_0)-2f(x_0)\hat f(x_0)+\hat f^2(x_0)] \\
+					&= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
+					E_{\YY/\XX}[(f(x_0)-\hat f(x_0))]^2 \\
+					&= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
+					\Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2 \\
+					&= \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
+					\Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2
+				\end{split}
+			\end{equation}
+			since $f(x_0)$ does not have any randomness.
+			\item Similarly,
+			\begin{equation}
+				\begin{split}
+					E_{\YY,\XX}[(f(x_0)-\hat f(x_0))^2]
+					&= \Var\nolimits_{\YY,\XX}(\hat f(x_0)) + 
+					\Bias\nolimits_{\YY,\XX}[\hat f(x_0)]^2.
+				\end{split}
+			\end{equation}
+			\item We have that 
+			\[\Var\nolimits_{\YY,\XX}(\hat f(x_0)) = 
+			E_{\XX\sim h}[\Var\nolimits_{\YY,\XX}(\hat f(x_0))]\] 
+			\[\Bias\nolimits_{\YY,\XX}(\hat f(x_0)) = 
+			E_{\XX\sim h}[\Bias\nolimits_{\YY,\XX}(\hat f(x_0))]\]
+		\end{enumerate}}
 	\end{soln}
 \end{enumerate}
 
