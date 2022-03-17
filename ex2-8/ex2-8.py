@@ -34,14 +34,14 @@ if __name__ == "__main__":
 
     print("Linear Regression")
     print("Training Error")
-    print(linear_error(X_train, X_train, y_train, y_train))
+    print(f"{linear_error(X_train, X_train, y_train, y_train):.2%}")
     print("Testing Error")
-    print(linear_error(X_train, X_valid, y_train, y_valid))
+    print(f"{linear_error(X_train, X_valid, y_train, y_valid):.2%}")
 
     print("k-nearest neighbors classifier")
     for k in {1, 3, 5, 7, 15}:
         print("k =",k)
         print("Training Error")
-        print(nearest_neighbor_error(X_train, X_train, y_train, y_train, k))
+        print(f"{nearest_neighbor_error(X_train, X_train, y_train, y_train, k):.2%}")
         print("Testing Error")
-        print(nearest_neighbor_error(X_train, X_valid, y_train, y_valid, k))
+        print(f"{nearest_neighbor_error(X_train, X_valid, y_train, y_valid, k):.2%}")

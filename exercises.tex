@@ -342,112 +342,128 @@
 	\end{soln}
 
 	\item Suppose we have a sample of $N$ pairs $x_i,y_i$ drawn i.i.d from the
-	distribution characterized as follows:
-	\begin{itemize}
-		\item[] $x_i\sim h(x)$, the design density
-		\item[] $y_i=f(x_i)+\varepsilon_i$, $f$ is the regression function
-		\item[] $\varepsilon_i\sim(0,\sigma^2)$ (mean zero, variance $\sigma^2$)
-	\end{itemize}
-	We construct an estimator for $f$ \emph{linear} in the $y_i$,
-	\[\hat f(x_0)=\sum_{i=1}^N\ell_i(x_0;\mathcal{X})y_i,\] where the weights
-	$\ell_i(x_0;\mathcal{X})$ do not depend on the $y_i$, but do depend on the
-	entire training sequence of $x_i$, denoted here by $\mathcal{X}$.
-	\begin{enumerate}
-		\item Show that the linear regression and $k$-nearest-neighbor
-		regression are members of this class of estimators. Describe explicitly
-		the weights $\ell_i(x_0;\mathcal{X})$ in each of these cases.
-		\item Decompose the conditional mean-squared error
-		\[E_{\mathcal{Y}|\mathcal{X}}(f(x_0)-\hat f(x_0))^2\] into a conditional
-		squared bias and a conditional variance component. Like $\mathcal{X}$,
-		$\mathcal{Y}$ represents the entire training sequence of $y_i$.
-		\item Decompose the mean-squared error $E_{\mathcal{X,Y}}(f(x_0)-\hat
-		f(x_0))^2$ into a squared bias and a variance component.
-		\item Establish a relationship between the squared biases and variances
-		in the above two cases.
-	\end{enumerate}
+	      distribution characterized as follows:
+	      \begin{itemize}
+		      \item[] $x_i\sim h(x)$, the design density
+		      \item[] $y_i=f(x_i)+\varepsilon_i$, $f$ is the regression function
+		      \item[] $\varepsilon_i\sim(0,\sigma^2)$ (mean zero, variance $\sigma^2$)
+	      \end{itemize}
+	      We construct an estimator for $f$ \emph{linear} in the $y_i$,
+	      \[\hat f(x_0)=\sum_{i=1}^N\ell_i(x_0;\mathcal{X})y_i,\] where the weights
+	      $\ell_i(x_0;\mathcal{X})$ do not depend on the $y_i$, but do depend on the
+	      entire training sequence of $x_i$, denoted here by $\mathcal{X}$.
+	      \begin{enumerate}
+		      \item Show that the linear regression and $k$-nearest-neighbor
+		            regression are members of this class of estimators. Describe explicitly
+		            the weights $\ell_i(x_0;\mathcal{X})$ in each of these cases.
+		      \item Decompose the conditional mean-squared error
+		            \[E_{\mathcal{Y}|\mathcal{X}}(f(x_0)-\hat f(x_0))^2\] into a conditional
+		            squared bias and a conditional variance component. Like $\mathcal{X}$,
+		            $\mathcal{Y}$ represents the entire training sequence of $y_i$.
+		      \item Decompose the mean-squared error $E_{\mathcal{X,Y}}(f(x_0)-\hat
+			            f(x_0))^2$ into a squared bias and a variance component.
+		      \item Establish a relationship between the squared biases and variances
+		            in the above two cases.
+	      \end{enumerate}
 
-	\begin{soln}{
-		\renewcommand{\XX}{\mathcal{X}}
-		\renewcommand{\YY}{\mathcal{Y}}
-		\begin{enumerate}
-			\item For linear regression, we have that $\hat f(x_0) =
-			x^T(\XX^T\XX)^{-1}\XX y=\sum_{i=1}^N\ell_i(x_0;\XX)y_i$, where
-			$\ell_i(x_0;\XX)$ is the $i$th element of the vector
-			$x^T(\XX^T\XX)^{-1}\XX$. For the $k$-nearest neighbor, we have that
-			$\ell_i(x_0;\XX)=\frac{1}{k}I(x_i\in N_k(x_0,\XX))$, where
-			$N_k(x_0,\XX)$ is the set of the $k$ closest points to $x_0$.
+	      \begin{soln}{
+			      \renewcommand{\XX}{\mathcal{X}}
+			      \renewcommand{\YY}{\mathcal{Y}}
+			      \begin{enumerate}
+				      \item For linear regression, we have that $\hat f(x_0) =
+					            x^T(\XX^T\XX)^{-1}\XX y=\sum_{i=1}^N\ell_i(x_0;\XX)y_i$, where
+				            $\ell_i(x_0;\XX)$ is the $i$th element of the vector
+				            $x^T(\XX^T\XX)^{-1}\XX$. For the $k$-nearest neighbor, we have that
+				            $\ell_i(x_0;\XX)=\frac{1}{k}I(x_i\in N_k(x_0,\XX))$, where
+				            $N_k(x_0,\XX)$ is the set of the $k$ closest points to $x_0$.
 
-			\item We have that
-			\begin{equation}
-				\begin{split}
-					E_{\YY/\XX}[(f(x_0)-\hat f(x_0))^2]
-					&= E_{\YY/\XX}[f^2(x_0)-2f(x_0)\hat f(x_0)+\hat f^2(x_0)] \\
-					&= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
-					E_{\YY/\XX}[(f(x_0)-\hat f(x_0))]^2 \\
-					&= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
-					\Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2 \\
-					&= \Var\nolimits_{\YY/\XX}(\hat f(x_0)) + 
-					\Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2
-				\end{split}
-			\end{equation}
-			since $f(x_0)$ does not have any randomness.
-			\item Similarly,
-			\begin{equation}
-				\begin{split}
-					E_{\YY,\XX}[(f(x_0)-\hat f(x_0))^2]
-					&= \Var\nolimits_{\YY,\XX}(\hat f(x_0)) + 
-					\Bias\nolimits_{\YY,\XX}[\hat f(x_0)]^2.
-				\end{split}
-			\end{equation}
-			\item We have that 
-			\[\Var\nolimits_{\YY,\XX}(\hat f(x_0)) = 
-			E_{\XX\sim h}[\Var\nolimits_{\YY,\XX}(\hat f(x_0))]\] 
-			\[\Bias\nolimits_{\YY,\XX}(\hat f(x_0)) = 
-			E_{\XX\sim h}[\Bias\nolimits_{\YY,\XX}(\hat f(x_0))]\]
-		\end{enumerate}}
-	\end{soln}
+				      \item We have that
+				            \begin{equation}
+					            \begin{split}
+						            E_{\YY/\XX}[(f(x_0)-\hat f(x_0))^2]
+						            &= E_{\YY/\XX}[f^2(x_0)-2f(x_0)\hat f(x_0)+\hat f^2(x_0)] \\
+						            &= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) +
+						            E_{\YY/\XX}[(f(x_0)-\hat f(x_0))]^2 \\
+						            &= \Var\nolimits_{\YY/\XX}(f(x_0)) + \Var\nolimits_{\YY/\XX}(\hat f(x_0)) +
+						            \Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2 \\
+						            &= \Var\nolimits_{\YY/\XX}(\hat f(x_0)) +
+						            \Bias\nolimits_{\YY/\XX}[\hat f(x_0)]^2
+					            \end{split}
+				            \end{equation}
+				            since $f(x_0)$ does not have any randomness.
+				      \item Similarly,
+				            \begin{equation}
+					            \begin{split}
+						            E_{\YY,\XX}[(f(x_0)-\hat f(x_0))^2]
+						            &= \Var\nolimits_{\YY,\XX}(\hat f(x_0)) +
+						            \Bias\nolimits_{\YY,\XX}[\hat f(x_0)]^2.
+					            \end{split}
+				            \end{equation}
+				      \item We have that
+				            \[\Var\nolimits_{\YY,\XX}(\hat f(x_0)) =
+					            E_{\XX\sim h}[\Var\nolimits_{\YY,\XX}(\hat f(x_0))]\]
+				            \[\Bias\nolimits_{\YY,\XX}(\hat f(x_0)) =
+					            E_{\XX\sim h}[\Bias\nolimits_{\YY,\XX}(\hat f(x_0))]\]
+			      \end{enumerate}}
+	      \end{soln}
 
 	\item Compare the classification performance of linear regression and
-	$k$-nearest neighbor classification on the \texttt{zipcode} data. In
-	particular, consider only the 2's and 3's and $k=1,3,5,7,15$. Show both the
-	training and test error for each choice. The \texttt{zipcode} data are
-	available from the book
-	website~\url{https://hastie.su.domains/ElemStatLearn/}.
+	      $k$-nearest neighbor classification on the \texttt{zipcode} data. In
+	      particular, consider only the 2's and 3's and $k=1,3,5,7,15$. Show both the
+	      training and test error for each choice. The \texttt{zipcode} data are
+	      available from the book
+	      website~\url{https://hastie.su.domains/ElemStatLearn/}.
 
-	\begin{soln} We use the \texttt{sklearn} library of Python.
-		\begin{verbatim}
+	      \begin{soln} We use the \texttt{sklearn} library of Python.
+			      {\footnotesize
+				      \begin{verbatim}
 			Linear Regression
 			Training Error
-			0.024811721548711897
+			2.48%
 			Testing Error
-			0.15166534471565807
+			15.17%
 			k-nearest neighbors classifier
 			k = 1
 			Training Error
-			0.0
+			0.00%
 			Testing Error
-			0.024725274725274724
+			2.47%
 			k = 3
 			Training Error
-			0.005039596832253419
+			0.50%
 			Testing Error
-			0.03021978021978022
+			3.02%
 			k = 5
 			Training Error
-			0.005759539236861051
+			0.58%
 			Testing Error
-			0.03021978021978022
+			3.02%
 			k = 7
 			Training Error
-			0.0064794816414686825
+			0.65%
 			Testing Error
-			0.03296703296703297
+			3.30%
 			k = 15
 			Training Error
-			0.009359251259899209
+			0.94%
 			Testing Error
-			0.038461538461538464
-		\end{verbatim}
+			3.85%
+		\end{verbatim}}
+	      \end{soln}
+
+	\item Consider a linear regression model with $p$ parameters, fit by least
+	squares to a set of training data $(x_1,y_1),\ldots,(x_N,y_N)$ drawn at
+	random from a population. Let $\hat \beta$ be the least squares estimate.
+	Suppose we have some test data $(\tilde x_1, \tilde y_1),\ldots,(\tilde x_M,
+	\tilde y_M)$ drawn at random from the same population as the training data.
+	If $R_\mathsf{tr}(\beta)=\frac{1}{N}\sum_{i=1}^N(y_i-\beta^T x_i)^2$ and
+	$R_\mathsf{te}(\beta)=\frac{1}{M}\sum_{i=1}^M(\tilde y_i-\beta^T \tilde
+	x_i)^2$, prove that $$E\left[R_\mathsf{tr}(\hat\beta)\right]\le
+	E\left[R_\mathsf{te}(\hat\beta)\right]\,,$$ where the expectations are over all that is
+	random in each expression (meaning the population).
+
+	\begin{soln}
+		Least squares minimizes exactly the expression 
 	\end{soln}
 \end{enumerate}
 
