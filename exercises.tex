@@ -60,7 +60,7 @@
 \DeclareMathOperator*{\EPE}{EPE} \DeclareMathOperator*{\Var}{Var}
 \DeclareMathOperator*{\Bias}{Bias} \DeclareMathOperator*{\tr}{trace}
 \DeclareMathOperator*{\RSS}{RSS} \DeclareMathOperator*{\WRSS}{WRSS}
-\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\MSE}{MSE} \DeclareMathOperator*{\diag}{diag}
 
 
 %Pagination stuff.
@@ -306,10 +306,11 @@
 		The weighted least squares problem is defined as the problem of
 		minimizing the value
 		\[\WRSS\nolimits_{(x_i,y_i,w_i)}(\beta)=\sum_{i=1}^Nw_i(y_i-\hat
-			f_\beta(x_i))^2.\] It generasizes $\RSS$ since by setting $w_i=1$ we get
-		the $\RSS$. The idea behind $\WRSS$ is that some pairs $(x_i,y_i)$ may
-		have errors and some may be more accurate. By giving them weights, we
-		reward the more accurate ones and we penalize the less accurate.
+			f_\beta(x_i))^2.\] It generasizes $\RSS$ since by setting $w_i=1$ we
+		get the $\RSS$. The idea behind $\WRSS$ is that some pairs
+		$(x_i,y_i)$ may have errors and some may be more accurate. By giving
+		them weights, we reward the more accurate ones and we penalize the
+		less accurate.
 
 		A reduced least squares problem is one that uses fewer observations than
 		available; $N'<N$.
@@ -338,7 +339,8 @@
 					\end{split}
 				\end{equation}}
 		where the fourth and the seventh lines come from the fact that for any
-		function $f$ and $c\in\mathbb R$, it holds that $\argmin_\beta (f(\beta)+c)=\argmin_\beta{f(\beta)}$.
+		function $f$ and $c\in\mathbb R$, it holds that $\argmin_\beta
+			(f(\beta)+c)=\argmin_\beta{f(\beta)}$.
 	\end{soln}
 
 	\item Suppose we have a sample of $N$ pairs $x_i,y_i$ drawn i.i.d from the
@@ -346,36 +348,43 @@
 	      \begin{itemize}
 		      \item[] $x_i\sim h(x)$, the design density
 		      \item[] $y_i=f(x_i)+\varepsilon_i$, $f$ is the regression function
-		      \item[] $\varepsilon_i\sim(0,\sigma^2)$ (mean zero, variance $\sigma^2$)
+		      \item[] $\varepsilon_i\sim(0,\sigma^2)$ (mean zero, variance
+			      $\sigma^2$)
 	      \end{itemize}
 	      We construct an estimator for $f$ \emph{linear} in the $y_i$,
-	      \[\hat f(x_0)=\sum_{i=1}^N\ell_i(x_0;\mathcal{X})y_i,\] where the weights
-	      $\ell_i(x_0;\mathcal{X})$ do not depend on the $y_i$, but do depend on the
-	      entire training sequence of $x_i$, denoted here by $\mathcal{X}$.
+	      \[\hat f(x_0)=\sum_{i=1}^N\ell_i(x_0;\mathcal{X})y_i,\] where the
+	      weights $\ell_i(x_0;\mathcal{X})$ do not depend on the $y_i$, but do
+	      depend on the entire training sequence of $x_i$, denoted here by
+	      $\mathcal{X}$.
 	      \begin{enumerate}
 		      \item Show that the linear regression and $k$-nearest-neighbor
-		            regression are members of this class of estimators. Describe explicitly
-		            the weights $\ell_i(x_0;\mathcal{X})$ in each of these cases.
+		            regression are members of this class of estimators. Describe
+		            explicitly the weights $\ell_i(x_0;\mathcal{X})$ in each of
+		            these cases.
 		      \item Decompose the conditional mean-squared error
-		            \[E_{\mathcal{Y}|\mathcal{X}}(f(x_0)-\hat f(x_0))^2\] into a conditional
-		            squared bias and a conditional variance component. Like $\mathcal{X}$,
-		            $\mathcal{Y}$ represents the entire training sequence of $y_i$.
-		      \item Decompose the mean-squared error $E_{\mathcal{X,Y}}(f(x_0)-\hat
-			            f(x_0))^2$ into a squared bias and a variance component.
-		      \item Establish a relationship between the squared biases and variances
-		            in the above two cases.
+		            \[E_{\mathcal{Y}|\mathcal{X}}(f(x_0)-\hat f(x_0))^2\] into a
+		            conditional squared bias and a conditional variance
+		            component. Like $\mathcal{X}$, $\mathcal{Y}$ represents the
+		            entire training sequence of $y_i$.
+		      \item Decompose the mean-squared error
+		            $E_{\mathcal{X,Y}}(f(x_0)-\hat f(x_0))^2$ into a squared
+		            bias and a variance component.
+		      \item Establish a relationship between the squared biases and
+		            variances in the above two cases.
 	      \end{enumerate}
 
-	      \begin{soln}{
-			      \renewcommand{\XX}{\mathcal{X}}
+	      \begin{soln}{ \renewcommand{\XX}{\mathcal{X}}
 			      \renewcommand{\YY}{\mathcal{Y}}
 			      \begin{enumerate}
 				      \item For linear regression, we have that $\hat f(x_0) =
-					            x^T(\XX^T\XX)^{-1}\XX y=\sum_{i=1}^N\ell_i(x_0;\XX)y_i$, where
-				            $\ell_i(x_0;\XX)$ is the $i$th element of the vector
-				            $x^T(\XX^T\XX)^{-1}\XX$. For the $k$-nearest neighbor, we have that
-				            $\ell_i(x_0;\XX)=\frac{1}{k}I(x_i\in N_k(x_0,\XX))$, where
-				            $N_k(x_0,\XX)$ is the set of the $k$ closest points to $x_0$.
+					            x^T(\XX^T\XX)^{-1}\XX
+					            y=\sum_{i=1}^N\ell_i(x_0;\XX)y_i$, where
+				            $\ell_i(x_0;\XX)$ is the $i$th element of the
+				            vector $x^T(\XX^T\XX)^{-1}\XX$. For the
+				            $k$-nearest neighbor, we have that
+				            $\ell_i(x_0;\XX)=\frac{1}{k}I(x_i\in
+					            N_k(x_0,\XX))$, where $N_k(x_0,\XX)$ is the set
+				            of the $k$ closest points to $x_0$.
 
 				      \item We have that
 				            \begin{equation}
@@ -400,18 +409,18 @@
 					            \end{split}
 				            \end{equation}
 				      \item We have that
-				            \[\Var\nolimits_{\YY,\XX}(\hat f(x_0)) =
-					            E_{\XX\sim h}[\Var\nolimits_{\YY,\XX}(\hat f(x_0))]\]
-				            \[\Bias\nolimits_{\YY,\XX}(\hat f(x_0)) =
-					            E_{\XX\sim h}[\Bias\nolimits_{\YY,\XX}(\hat f(x_0))]\]
+				            \[\Var\nolimits_{\YY,\XX}(\hat f(x_0)) = E_{\XX\sim
+					            h}[\Var\nolimits_{\YY,\XX}(\hat f(x_0))]\]
+				            \[\Bias\nolimits_{\YY,\XX}(\hat f(x_0)) = E_{\XX\sim
+					            h}[\Bias\nolimits_{\YY,\XX}(\hat f(x_0))]\]
 			      \end{enumerate}}
 	      \end{soln}
 
-	\item Compare the classification performance of linear regression and
-	      $k$-nearest neighbor classification on the \texttt{zipcode} data. In
-	      particular, consider only the 2's and 3's and $k=1,3,5,7,15$. Show both the
-	      training and test error for each choice. The \texttt{zipcode} data are
-	      available from the book
+	      \item\label{ex:2.8} Compare the classification performance of linear
+	      regression and $k$-nearest neighbor classification on the
+	      \texttt{zipcode} data. In particular, consider only the 2's and 3's
+	      and $k=1,3,5,7,15$. Show both the training and test error for each
+	      choice. The \texttt{zipcode} data are available from the book
 	      website~\url{https://hastie.su.domains/ElemStatLearn/}.
 
 	      \begin{soln} We use the \texttt{sklearn} library of Python.
@@ -452,19 +461,45 @@
 	      \end{soln}
 
 	\item Consider a linear regression model with $p$ parameters, fit by least
-	squares to a set of training data $(x_1,y_1),\ldots,(x_N,y_N)$ drawn at
-	random from a population. Let $\hat \beta$ be the least squares estimate.
-	Suppose we have some test data $(\tilde x_1, \tilde y_1),\ldots,(\tilde x_M,
-	\tilde y_M)$ drawn at random from the same population as the training data.
-	If $R_\mathsf{tr}(\beta)=\frac{1}{N}\sum_{i=1}^N(y_i-\beta^T x_i)^2$ and
-	$R_\mathsf{te}(\beta)=\frac{1}{M}\sum_{i=1}^M(\tilde y_i-\beta^T \tilde
-	x_i)^2$, prove that $$E\left[R_\mathsf{tr}(\hat\beta)\right]\le
-	E\left[R_\mathsf{te}(\hat\beta)\right]\,,$$ where the expectations are over all that is
-	random in each expression (meaning the population).
+	      squares to a set of training data $(x_1,y_1),\ldots,(x_N,y_N)$ drawn
+	      at random from a population. Let $\hat \beta$ be the least squares
+	      estimate. Suppose we have some test data $(\tilde x_1, \tilde
+		      y_1),\ldots,(\tilde x_M, \tilde y_M)$ drawn at random from the same
+	      population as the training data. If
+	      $R_\mathsf{tr}(\beta)=\frac{1}{N}\sum_{i=1}^N(y_i-\beta^T x_i)^2$ and
+	      $R_\mathsf{te}(\beta)=\frac{1}{M}\sum_{i=1}^M(\tilde y_i-\beta^T
+		      \tilde x_i)^2$, prove that $$E\left[R_\mathsf{tr}(\hat\beta)\right]\le
+		      E\left[R_\mathsf{te}(\hat\beta)\right]\,,$$ where the expectations are
+	      over all that is random in each expression (meaning the population).
 
-	\begin{soln}
-		Least squares minimizes exactly the expression 
-	\end{soln}
+	      \begin{soln}
+		      We will prove a more general result. Let $S$ be the training set
+		      and $T$ be the testing set. Moreover, let $f(S,\beta)$ be the
+		      function we want to minimize (in our case it will be the RSS or
+		      its normalized version, the mean squared error $\MSE$). Let
+		      $\beta_S = \argmin_\beta f(S,\beta)$ and observe that for any
+		      $\beta$, it holds that $f(S,\beta_S)\le f(S,\beta)$. We have
+		      \begin{equation}
+			      \begin{split}
+				      E_{S,T}[f(T,\beta_S)] &= E_S E_{T/S}[f(T,\beta_S)] \\
+				      & \ge E_S E_{T/S}[f(T,\beta_T)] \\
+				      &= E_S E_T[f(T,\beta_T)] \\
+				      &= E_S[f(S,\beta_S)],
+			      \end{split}
+		      \end{equation}
+		      where the second line comes from the above inequality and the
+		      third line comes from the independence between $S$ and $T$.
+
+		      For our case, $S$ is the training set and $T$ is the testing set.
+		      Moreover, we have that
+		      $$\argmin_\beta(\RSS(\beta))=\argmin_\beta(\frac{1}{N}\RSS(\beta))=\argmin_\beta(\MSE(\beta)).$$
+		      Hence it is enough to consider the function
+		      $f(S,\beta)=\MSE(\beta)$, $\mathsf{tr}=S$, $\mathsf{te}=T$ and
+		      $\hat \beta = \beta_S$.
+
+		      We see that this inequality is illustrated in
+		      Exercise~\ref{ex:2.8}.
+	      \end{soln}
 \end{enumerate}
 
 
