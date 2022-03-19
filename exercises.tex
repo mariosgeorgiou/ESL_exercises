@@ -474,21 +474,37 @@
 
 	      \begin{soln}
 		      We will prove a more general result. Let $S$ be the training set
-		      and $T$ be the testing set. Moreover, let $f(S,\beta)$ be the
-		      function we want to minimize (in our case it will be the RSS or
-		      its normalized version, the mean squared error $\MSE$). Let
-		      $\beta_S = \argmin_\beta f(S,\beta)$ and observe that for any
-		      $\beta$, it holds that $f(S,\beta_S)\le f(S,\beta)$. We have
+		      and $T$ be the testing set. Moreover, let
+		      $f(S,\beta)=E_i[f(S_i,\beta)]$ be the function we want to minimize
+		      (in our case it will be the RSS or its normalized version, the
+		      mean squared error $\MSE$). Observe that for any $\beta$,
+			  \begin{equation}\label{eq:first is enough}
+				  \begin{split}
+					  E_S[f(S,\beta)] &= E_SE_i[f(S_i,\beta)] \\
+					  &= E_iE_S[f(S_i,\beta)] \\
+					  &= E_iE_S[f(S_1,\beta)] \\
+					  &= E_S[f(S_1,\beta)],
+				  \end{split}
+			  \end{equation}
+			  since all $S_i$ are i.i.d.. Let $\beta_S = \argmin_\beta
+		      f(S,\beta)$ and observe that for any $\beta$, it holds that
+		      $f(S,\beta_S)\le f(S,\beta)$. Let $T'$ be the set $T$, truncated
+		      or augmented by sampling more data to match the size of $S$. We
+		      have
 		      \begin{equation}
 			      \begin{split}
 				      E_{S,T}[f(T,\beta_S)] &= E_S E_{T/S}[f(T,\beta_S)] \\
-				      & \ge E_S E_{T/S}[f(T,\beta_T)] \\
-				      &= E_S E_T[f(T,\beta_T)] \\
-				      &= E_S[f(S,\beta_S)],
+				      & \ge E_S E_{T/S}[f(T,\beta_{T'})] \\
+				      &= E_S E_T[f(T,\beta_{T'})] \\
+				      &= E_T[f(T,\beta_{T'})] \\
+				      &= E_T[f(T_1,\beta_{T'})] \\
+				      &= E_{T'}[f(T_1,\beta_{T'})] \\
+				      &= E_S[f(S_1,\beta_S)] \\
+				      &= E_S[f(S,\beta_S)]
 			      \end{split}
 		      \end{equation}
-		      where the second line comes from the above inequality and the
-		      third line comes from the independence between $S$ and $T$.
+		      where the second line comes from the above inequality and the 5th
+		      and the 8th lines come from~\Cref{eq:first is enough}.
 
 		      For our case, $S$ is the training set and $T$ is the testing set.
 		      Moreover, we have that
