@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\YY}{\mathbf{Y}}
+\newcommand{\yy}{\mathbf{y}}
+\newcommand{\II}{\mathbf{I}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
+\DeclareMathOperator*{\EPE}{EPE} \DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\Bias}{Bias} \DeclareMathOperator*{\tr}{trace}
+\DeclareMathOperator*{\RSS}{RSS} \DeclareMathOperator*{\WRSS}{WRSS}
+\DeclareMathOperator*{\MSE}{MSE} \DeclareMathOperator*{\diag}{diag}
+
+\begin{document}
+\title{Chapter 3 Review Notes}
+
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE \bf Chapter 3 Lecture Notes}\\
+	{\large Elements of Statistical Learning}
+\end{center}
+
+\section{Means and Variances}
+
+\begin{shaded}
+	\textbf{Important Properties of Estimators} \newline
+	Let $x_1,\ldots,x_N$ be i.i.d. with mean $\mu$ and variance $\sigma^2$. Let
+	$\hat \mu=E_i[x_i]$ and $\hat \sigma^2 = \frac{N}{N-1}E_i(x_i-\hat \mu)^2$ be
+	the estimated mean and estimated variance respectively. Then $E[\hat\mu]=\mu$
+	and $E[\hat\sigma^2]=\sigma^2$.
+\end{shaded}
+
+First, it is easy to show that $E[\hat \mu]=\mu$:
+\begin{equation}
+	\begin{split}
+		E[\hat\mu] &= E[E_i[x_i]] \\
+		&= E_i[E[x_i]] \\
+		&= E_i[\mu] \\
+		&= \mu.
+	\end{split}
+\end{equation}
+
+Next, we know that
+\begin{itemize}
+	\item $\Var(c x)=c^2\Var(x)$
+	\item $\Var(\sum x_i)=n\Var(x_i)=n\sigma^2$, since they are i.i.d..
+	\item The above two, give us that $\Var[\hat\mu]=\frac{\sigma^2}{n}$. This
+	      makes sense, the more data we have the closer we get to the mean, and so the
+	      variance becomes smaller.
+\end{itemize}
+
+Using the above property, we can compute the expected estimated variance. First,
+notice that
+\begin{equation}
+	\begin{split}
+		E_i(x_i-\hat\mu)^2 &= E_i(x_i^2-2x_i\hat\mu+\hat\mu^2) \\
+		&= E_i(x_i^2) - 2\hat\mu E_i(x_i) + \hat\mu^2 \\
+		&= E_i(x_i^2) - \hat\mu^2.
+	\end{split}
+\end{equation}
+
+Therefore, we compute $E(\hat\sigma^2)$ as follows:
+\begin{equation}
+	\begin{split}
+		E(\hat\sigma^2) &= \frac{N}{N-1}E(E_i(x_i-\hat \mu)^2) \\
+		&= \frac{N}{N-1}E(E_i(x_i^2) - \hat\mu^2) \\
+		&= \frac{N}{N-1}\left[E(E_i(x_i^2)) - E(\hat\mu^2)\right] \\
+		&= \frac{N}{N-1}\left[E_i(E(x_i^2)) - E(\hat\mu^2)\right] \\
+		&= \frac{N}{N-1}\left[E_i(\sigma^2-\mu^2) - E(\hat\mu^2)\right] \\
+		&= \frac{N}{N-1}\left[\sigma^2-\mu^2 - \Var\hat\mu+(E\hat\mu)^2\right] \\
+		&= \frac{N}{N-1}\left[\sigma^2-\mu^2 - \sigma^2/N+\mu^2\right] \\
+		&= \frac{N}{N-1}\frac{N-1}{N}\sigma^2 = \sigma^2.
+	\end{split}
+\end{equation}
+
+\section{Estimated Values in Linear Regression}
+
+\begin{shaded}
+	\textbf{Important Properties of Estimators} \newline
+	Suppose that the regression function $E[Y|X]=f(X)$ and that $\Var
+    Y=\sigma^2$. Suppose also that $x_i$ are fixed, not random, and the only
+    randomness is on the $y_i$. We compute the least squares as $\hat\beta =
+    (\XX^T\XX)^{-1}\XX^T\yy$ and the estimated variance as
+    $\hat\sigma^2=\frac{N}{N-p-1}E_i(y_i-\hat y_i)^2$. Then
+    $\Var[\hat\beta]=(\XX^T\XX)^{-1}\sigma^2$ and $E[\hat\sigma^2]=\sigma^2$.
+\end{shaded}
+
+We first compute $\Var[\hat\beta]$. We have
+\begin{equation}
+    \begin{split}
+        \Var[\hat\beta] &= \Var[(\XX^T\XX)^{-1}\XX^T\yy] \\
+        &= (\XX^T\XX)^{-1}\XX^T \Var[\yy] \XX(\XX^T\XX)^{-1} \\
+        &= (\XX^T\XX)^{-1}\XX^T \II_p\sigma^2 \XX(\XX^T\XX)^{-1} \\
+        &= (\XX^T\XX)^{-1}\sigma^2.
+    \end{split}
+\end{equation}
+
+Moreover, here we lose $p+1$ degrees of freedom instead of just one since
+$x_i\in\mathbb R^{p+1}$.
+
+
+
+\end{document}

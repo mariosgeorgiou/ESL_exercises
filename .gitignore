@@ -7,3 +7,8 @@
 /indent.log
 /zipcode
 exercises.out
+notes/notes.fdb_latexmk
+notes/notes.fls
+notes/notes.log
+notes/notes.pdf
+notes/notes.synctex.gz
