@@ -23,7 +23,12 @@
 \usepackage{framed}
 \usepackage[most]{tcolorbox}
 \usepackage{xcolor}
-\colorlet{shadecolor}{orange!15}
+\usepackage{pagecolor}
+
+\pagecolor{black}
+\color{white}
+
+\colorlet{shadecolor}{blue!40}
 \parindent 0in
 \parskip 12pt
 \geometry{margin=1in, headsep=0.25in}
@@ -37,6 +42,8 @@
 \newcommand{\YY}{\mathbf{Y}}
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\II}{\mathbf{I}}
+\newcommand{\IID}{\textsf{IID}}
+\newcommand{\Normal}[2]{\ensuremath{\mathcal N (#1, #2)}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
@@ -74,6 +81,9 @@ First, it is easy to show that $E[\hat \mu]=\mu$:
 		&= \mu.
 	\end{split}
 \end{equation}
+
+Moreover, it holds that $\Cov(x_i-\hat\mu,\mu)=0$ so the two variables are
+independent which is interesting.
 
 Next, we know that
 \begin{itemize}
@@ -113,26 +123,68 @@ Therefore, we compute $E(\hat\sigma^2)$ as follows:
 \begin{shaded}
 	\textbf{Important Properties of Estimators} \newline
 	Suppose that the regression function $E[Y|X]=f(X)$ and that $\Var
-    Y=\sigma^2$. Suppose also that $x_i$ are fixed, not random, and the only
-    randomness is on the $y_i$. We compute the least squares as $\hat\beta =
-    (\XX^T\XX)^{-1}\XX^T\yy$ and the estimated variance as
-    $\hat\sigma^2=\frac{N}{N-p-1}E_i(y_i-\hat y_i)^2$. Then
-    $\Var[\hat\beta]=(\XX^T\XX)^{-1}\sigma^2$ and $E[\hat\sigma^2]=\sigma^2$.
+		Y=\sigma^2$. Suppose also that $x_i$ are fixed, not random, and the only
+	randomness is on the $y_i$. We compute the least squares as $\hat\beta =
+		(\XX^T\XX)^{-1}\XX^T\yy$ and the estimated variance as
+	$\hat\sigma^2=\frac{N}{N-p-1}E_i(y_i-\hat y_i)^2$. Then
+	$\Var[\hat\beta]=(\XX^T\XX)^{-1}\sigma^2$ and $E[\hat\sigma^2]=\sigma^2$.
 \end{shaded}
 
 We first compute $\Var[\hat\beta]$. We have
 \begin{equation}
-    \begin{split}
-        \Var[\hat\beta] &= \Var[(\XX^T\XX)^{-1}\XX^T\yy] \\
-        &= (\XX^T\XX)^{-1}\XX^T \Var[\yy] \XX(\XX^T\XX)^{-1} \\
-        &= (\XX^T\XX)^{-1}\XX^T \II_p\sigma^2 \XX(\XX^T\XX)^{-1} \\
-        &= (\XX^T\XX)^{-1}\sigma^2.
-    \end{split}
+	\begin{split}
+		\Var[\hat\beta] &= \Var[(\XX^T\XX)^{-1}\XX^T\yy] \\
+		&= (\XX^T\XX)^{-1}\XX^T \Var[\yy] \XX(\XX^T\XX)^{-1} \\
+		&= (\XX^T\XX)^{-1}\XX^T \II_p\sigma^2 \XX(\XX^T\XX)^{-1} \\
+		&= (\XX^T\XX)^{-1}\sigma^2.
+	\end{split}
 \end{equation}
 
 Moreover, here we lose $p+1$ degrees of freedom instead of just one since
 $x_i\in\mathbb R^{p+1}$.
 
+\section{Important Distributions}
 
+\subsection{Chi-squared}
+Let $x_1,\ldots,x_n$ be \IID~ standard normal random variables
+$x_i\sim\mathcal{N}(0,1)$ and let $\|x\|_2=nE_ix_i^2=\sum_i x_i^2$. Then
+$$\|x\|_2\sim\chi_n^2.$$
+
+Of course $\chi_n^2$ is always positive and drops similarly to how the normal
+drops on its right.
+
+Clearly, the same holds no matter whether the vector is free or bound. Hence, if
+$x\sim\mathcal{N}(\mu,I_n)$, then $$\|x\|_2=\sum(x_i-\mu)^2\sim\chi_n^2$$ again.
+
+Additionally, Cochran's theorem states that
+$nE_i(x_i-E_ix_i)^2=\sum_i(x_i-\hat\mu)^2\sim\chi_{n-1}^2$. So, if we instead of
+the real mean we use the estimated mean, we lose one degree of freedom.
+
+Also, $(n-1)\hat\sigma^2\sim \sigma^2\chi_{n-1}^2$.
+
+\subsection{$t$-distribution}
+As before, let $x_1,\ldots,x_n\sim\Normal\mu{\sigma^2}$. We saw above that the
+sample variance (a.k.a. unbiased variance estimation) is
+$\hat\sigma^2=\frac{N}{N-1}E_i(x_i-\hat\mu)^2$. It holds that
+\begin{equation}
+	\frac{\hat\mu-\mu}{\sigma/\sqrt n}~\sim\Normal{0}{1}.
+\end{equation}
+However, if instead we use the sample variance, we get
+\begin{equation}
+	\frac{\hat\mu-\mu}{\hat\sigma/\sqrt n}~\sim t_{n-1}.
+\end{equation}
+Observe that both of the above quantities have distributions that do not depend
+neither on $\mu$ nor on $\sigma$. However, specifically the second one have only
+one unknown, the mean $\mu$. So we can use this distribution to derive
+confidence intervals for $\mu$.
+
+
+\begin{defn}[$t$-distribution]
+	Let $Z,V$ independent random variables, such that $Z\sim\Normal 0 1$ and
+	$V\sim\chi_v^2$. Then
+	\[T=\frac{Z}{\sqrt{V/v}}\sim t_v\]
+\end{defn}
+
+Student's $t$ looks like a normal distribution but pushed down.
 
 \end{document}
