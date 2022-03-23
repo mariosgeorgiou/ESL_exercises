@@ -178,6 +178,17 @@ neither on $\mu$ nor on $\sigma$. However, specifically the second one has only
 one unknown, the mean $\mu$. So we can use this distribution to derive
 confidence intervals for $\mu$.
 
+\begin{shaded}
+	\textbf{Hypothesis testing using the $t$-distribution} \newline
+    As the sample size $n$ increases, the two distributions $\Normal 0 1$ and
+    $t_{n-1}$ look very alike and $t_\infty=\Normal 0 1$. Especially the
+    difference between their tail quantiles becomes negligible in $n$.
+    This suggests an easy way to verify the null hypothesis that $\mu=0$. Simply
+    take the quantity $\frac{\hat\mu}{\hat\sigma^2/\sqrt n}$ and check whether
+    it is far from zero. The further from zero it is, the more likely that the
+    null hypothesis does not hold and should be rejected.
+\end{shaded}
+
 
 \begin{defn}[$t$-distribution]
 	Let $Z,V$ independent random variables, such that $Z\sim\Normal 0 1$ and
