@@ -140,8 +140,6 @@ We first compute $\Var[\hat\beta]$. We have
 	\end{split}
 \end{equation}
 
-Moreover, here we lose $p+1$ degrees of freedom instead of just one since
-$x_i\in\mathbb R^{p+1}$.
 
 \section{Important Distributions}
 
@@ -223,6 +221,27 @@ $x\leftarrow X$, be a sample from this distribution. Then the $Z$-score of $x$
 is the distance of $x$ from the mean, measured in standard deviations:
 \[ z=\frac{x-\mu}{\sigma}.\]
 
-\subsection{Null hypothesis}
+\section{Applications to 3.2}
+We have already seen that
+\[\Var[\hat\beta]=(\XX^T\XX)^{-1}\sigma^2.\]
+
+Moreover, similarly to how we computed the unbiased variance estimator above for
+one dimension, here we have $p+1$ dimensions, and hence,
+\[\hat\sigma^2=\frac{N}{N-p-1}E_i(\hat y_i-y_i)^2.\]
+
+As before, $E[\hat\sigma^2]=\sigma^2$.
+
+Now, let's additionally assume that the real model is linear; i.e.
+$E[Y|X]=X^T\beta$ and $Y=X^T\beta+\varepsilon$, where
+$\varepsilon\sim\Normal{0}{\sigma^2}$. 
+
+In this case, our beta estimator $\hat\beta$ follows the distribution
+\[\hat\beta\sim\Normal{\beta}{(\XX^T\XX)^{-1}\sigma^2}.\]
+So $\hat\beta$ is also normal.
+
+Moreover, $(N-p-1)\hat\sigma^2\sim\sigma^2\chi^2_{N-p-1}$ similarly to what we 
+had above but for more dimensions.
+
+Also, $\Cov(\hat\beta,\hat\sigma^2)=0$.
  
 \end{document}
