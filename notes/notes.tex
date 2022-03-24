@@ -162,7 +162,7 @@ As before, let $x_1,\ldots,x_n\sim\Normal\mu{\sigma^2}$. We saw above that the
 sample variance (a.k.a. unbiased variance estimation) is
 $\hat\sigma^2=\frac{N}{N-1}E_i(x_i-\hat\mu)^2$. It holds that
 \begin{equation}
-	\frac{\hat\mu-\mu}{\sigma/\sqrt n}~\sim\Normal{0}{1}.
+	\frac{\hat\mu-\mu}{\sigma/\sqrt n}~\sim\Normal{0}{1}. \tag{See Wiki}
 \end{equation}
 However, if instead we use the sample variance, we get
 \begin{equation}
@@ -177,9 +177,9 @@ For example, we can make the null hypothesis that $\mu=\mu^*$ for some $\mu^*$.
 If this is the case, then we expect the expression
 \[\frac{\hat\mu-\mu^*}{\hat\sigma\sqrt{n}}\] to follow the
 $t_{n-1}$-distribution which is almost the same as the normal distribution. But
-not that we know all parameters of this expression so we can easily evaluate it.
-If we get a value that is close to 0 then we accept the hypothesis, otherwise we
-reject it.
+note that we know all parameters of this expression so we can easily evaluate
+it. If we get a value that is close to 0 then we accept the hypothesis,
+otherwise we reject it.
 
 \begin{shaded}
 	\textbf{Hypothesis testing using the $t$-distribution} \newline
@@ -232,8 +232,8 @@ is the distance of $x$ from the mean, measured in standard deviations:
 Notice that if $x\sim\Normal{\mu}{\sigma^2}$, then $z\sim\Normal 0 1$; i.e., it
 follows the standard normal distribution. This is called \emph{normalization} in
 general. The goal is to use our samples to arrive to a \emph{pivotal quantity},
-meaning a quantity whose distribution is independent of the parameters of the
-real distribution.
+meaning a quantity whose distribution is known to us and is independent of the
+parameters of the real distribution.
 
 \paragraph{Example.} Suppose that $\hat x=\hat\mu=E_i x_i$ is the average (sample mean,
 mean estimation) of the $x_i$s. We saw earlier that $E[\hat{x}]=\mu$. Moreover,
@@ -262,6 +262,28 @@ In this case, our beta estimator $\hat\beta$ is also normal:
 Moreover, $(N-p-1)\hat\sigma^2\sim\sigma^2\chi^2_{N-p-1}$ similarly to what we 
 had above but for more dimensions.
 
-Also, $\Cov(\hat\beta,\hat\sigma^2)=0$.
+Also, $\Cov(\hat\beta,\hat\sigma^2)=0$. We define the Z-score of $\hat\beta_j$
+as
+\[z_j=\frac{\hat\beta_j-\beta_j}{\hat\sigma\sqrt{v_j}},\] where $v_j$ is the
+$j$th diagonal element of $(\XX^T\XX)^{-1}$. Notice that in the above expression
+the only unknown is $\beta_j$. So we can possibly plug different values until we
+find an expression that is close to 0.
+
+For example, if we make the null hypothesis that $\beta_j=0$, then $z_j\sim
+t_{N-p-1}$, which is almost the same as $\Normal 0 1$.
+
+\subsection{Removing more variables}
+Often, we may have a feeling that there is a group of coefficients that does not
+affect the dependent variable. In this case, we can apply least squares
+\emph{with} and \emph{without} this set of variables getting $\RSS_1$ and 
+$\RSS_0$ respectively. In this case, the F-statistic is:
+\[F=\frac{(\RSS_0-\RSS_1)(p_1-p_0)}{\RSS_1/(N-p_1-1)},\] where $p_1+1$ is number
+of parameters of the bigger model and $p_0+1$ is the number of parameters of the
+smaller model. As we guess,
+\[F\sim F_{p_1-p_0,N-p_1-1}.\] Again, the $F$-distribution is very similar to
+the $\chi^2_{p_1-p_0}/(p_1-p_0)$ distribution at the tail quantiles. So the
+further we are from zero, the more likely the larger model to be the correct
+one.
+
  
 \end{document}
