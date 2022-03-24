@@ -82,9 +82,6 @@ First, it is easy to show that $E[\hat \mu]=\mu$:
 	\end{split}
 \end{equation}
 
-Moreover, it holds that $\Cov(x_i-\hat\mu,\mu)=0$ so the two variables are
-independent which is interesting.
-
 Next, we know that
 \begin{itemize}
 	\item $\Var(c x)=c^2\Var(x)$
@@ -176,6 +173,14 @@ neither on $\mu$ nor on $\sigma$. However, specifically the second one has only
 one unknown, the mean $\mu$. So we can use this distribution to derive
 confidence intervals for $\mu$.
 
+For example, we can make the null hypothesis that $\mu=\mu^*$ for some $\mu^*$.
+If this is the case, then we expect the expression
+\[\frac{\hat\mu-\mu^*}{\hat\sigma\sqrt{n}}\] to follow the
+$t_{n-1}$-distribution which is almost the same as the normal distribution. But
+not that we know all parameters of this expression so we can easily evaluate it.
+If we get a value that is close to 0 then we accept the hypothesis, otherwise we
+reject it.
+
 \begin{shaded}
 	\textbf{Hypothesis testing using the $t$-distribution} \newline
     As the sample size $n$ increases, the two distributions $\Normal 0 1$ and
@@ -215,11 +220,27 @@ has two degrees of freedom $d_1,d_2$ and we write $F_{d_1,d_2}$.
 \end{defn}
 So it is the ratio of two independent appropriately scaled $\chi^2$ distributions.
 
+Similarly to the chi-squared distribution, the $F$-distribution is always positive
+and has a similar shape as the chi-squared.
+
 \subsection{$Z$-score}
 Let $X$ be a random variable with mean $\mu$ and variance $\sigma$. Let
 $x\leftarrow X$, be a sample from this distribution. Then the $Z$-score of $x$
 is the distance of $x$ from the mean, measured in standard deviations:
 \[ z=\frac{x-\mu}{\sigma}.\]
+
+Notice that if $x\sim\Normal{\mu}{\sigma^2}$, then $z\sim\Normal 0 1$; i.e., it
+follows the standard normal distribution. This is called \emph{normalization} in
+general. The goal is to use our samples to arrive to a \emph{pivotal quantity},
+meaning a quantity whose distribution is independent of the parameters of the
+real distribution.
+
+\paragraph{Example.} Suppose that $\hat x=\hat\mu=E_i x_i$ is the average (sample mean,
+mean estimation) of the $x_i$s. We saw earlier that $E[\hat{x}]=\mu$. Moreover,
+$\hat\sigma=\frac{N}{N-1}E_i(x_i-\hat\mu)^2$ is the sample variance such that
+$E[\hat\sigma^2]=\sigma^2$. Then the Z-score of $\hat x$, is 
+\[z=\frac{\hat x-E[\hat x]}{\hat\sigma/\sqrt{N}}.\]
+This follows the distribution $t_{N-1}$ as we saw.
 
 \section{Applications to 3.2}
 We have already seen that
@@ -235,9 +256,8 @@ Now, let's additionally assume that the real model is linear; i.e.
 $E[Y|X]=X^T\beta$ and $Y=X^T\beta+\varepsilon$, where
 $\varepsilon\sim\Normal{0}{\sigma^2}$. 
 
-In this case, our beta estimator $\hat\beta$ follows the distribution
+In this case, our beta estimator $\hat\beta$ is also normal:
 \[\hat\beta\sim\Normal{\beta}{(\XX^T\XX)^{-1}\sigma^2}.\]
-So $\hat\beta$ is also normal.
 
 Moreover, $(N-p-1)\hat\sigma^2\sim\sigma^2\chi^2_{N-p-1}$ similarly to what we 
 had above but for more dimensions.
