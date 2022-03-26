@@ -285,5 +285,32 @@ the $\chi^2_{p_1-p_0}/(p_1-p_0)$ distribution at the tail quantiles. So the
 further we are from zero, the more likely the larger model to be the correct
 one.
 
+\subsection{Confidence Intervals}
+Finally, suppose that we have computed the pivotal quantity $z_j$ and got a
+particular value. Now, since we know that the distribution of $z_j$ is very
+close to the standard normal, we can get a confidence interval for $\beta_j$.
+
+For example, suppose we want a 95\% confidence interval. Then, we look for a $c$
+such that
+\[\Pr[-c\le z_j\le c]=0.95,\]
+which amounts to $c=1.96.$
+
+We have
+\begin{equation}
+	\begin{split}
+		-c\le \frac{\hat\beta_j-\beta_j}{\hat\sigma\sqrt{v_j}}\le c &\implies
+		-c\hat\sigma\sqrt{v_j} \le \hat\beta_j-\beta_j \le c\hat\sigma\sqrt{v_j} \\
+		&\implies -c\hat\sigma\sqrt{v_j}-\hat\beta_j \le -\beta_j \le c\hat\sigma\sqrt{v_j}-\hat\beta_j \\
+		&\implies -c\hat\sigma\sqrt{v_j}+\hat\beta_j \le \beta_j \le c\hat\sigma\sqrt{v_j}+\hat\beta_j,
+	\end{split}
+\end{equation}
+where $c$ is the 95\% percentile of the standard normal distribution. Hence,
+with probability 95\%,
+\[\beta_j\in
+(\hat\beta_j-c\hat\sigma\sqrt{v_j},\hat\beta_j+c\hat\sigma\sqrt{v_j}),\] where
+$\hat\sigma\sqrt{v_j}=\mathrm{se}(\hat\beta_j)$ is the standard error of
+$\hat\beta_j$. By approximating $c=2$, we get the standard practice of reporting
+$\hat\beta_j\pm \mathrm{se}(\hat\beta_j)$ as the 95\% confidence interval.
+
  
 \end{document}
