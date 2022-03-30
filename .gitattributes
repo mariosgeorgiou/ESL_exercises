@@ -1,0 +1,2 @@
+*.xtrain filter=lfs diff=lfs merge=lfs -text
+*.ytrain filter=lfs diff=lfs merge=lfs -text
