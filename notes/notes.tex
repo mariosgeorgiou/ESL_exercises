@@ -312,5 +312,21 @@ $\hat\sigma\sqrt{v_j}=\mathrm{se}(\hat\beta_j)$ is the standard error of
 $\hat\beta_j$. By approximating $c=2$, we get the standard practice of reporting
 $\hat\beta_j\pm \mathrm{se}(\hat\beta_j)$ as the 95\% confidence interval.
 
+\subsection{Reproducing Correlation Matrix}
+By running the python script \texttt{prostate-data/correlation.py}, we get
+{\footnotesize
+\begin{verbatim}
+	          lcavol  lweight      age     lbph      svi      lcp  gleason    pgg45     lpsa
+	lcavol   1.00000  0.30023  0.28632  0.06317  0.59295  0.69204  0.42641  0.48316  0.73316
+	lweight  0.30023  1.00000  0.31672  0.43704  0.18105  0.15683  0.02356  0.07417  0.48522
+	age      0.28632  0.31672  1.00000  0.28735  0.12890  0.17295  0.36592  0.27581  0.22764
+	lbph     0.06317  0.43704  0.28735  1.00000 -0.13915 -0.08853  0.03299 -0.03040  0.26294
+	svi      0.59295  0.18105  0.12890 -0.13915  1.00000  0.67124  0.30688  0.48136  0.55689
+	lcp      0.69204  0.15683  0.17295 -0.08853  0.67124  1.00000  0.47644  0.66253  0.48920
+	gleason  0.42641  0.02356  0.36592  0.03299  0.30688  0.47644  1.00000  0.75706  0.34243
+	pgg45    0.48316  0.07417  0.27581 -0.03040  0.48136  0.66253  0.75706  1.00000  0.44805
+	lpsa     0.73316  0.48522  0.22764  0.26294  0.55689  0.48920  0.34243  0.44805  1.00000
+\end{verbatim}
+}
  
 \end{document}
