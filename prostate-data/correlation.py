@@ -1,11 +1,26 @@
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 
 
 if __name__ == "__main__":
-    X_train = pd.read_csv('./prostate.data', delim_whitespace=True)
-    X_train = X_train[X_train['train'] == 'T']
-    X_train = X_train.drop(columns='train')
-    print(X_train.corr().round(5))
+    Data = pd.read_csv('./prostate.data', delim_whitespace=True)
+    Data = Data[Data['train'] == 'T']
+    Data = Data.drop(columns='train')
+    print(Data.corr().round(5))
 
-    X_train_norm = (X_train-X_train.mean())/X_train.std()
-    print(X_train_norm.corr().round(5))
+    # Data_norm = (Data-Data.mean())/Data.std()
+
+    scaler = StandardScaler()
+    Data_strd = scaler.fit_transform(Data)
+    Data_strd = pd.DataFrame(Data_strd, columns=Data.columns)
+
+    X_train = Data.iloc[:, :-1]
+    y_train = Data.iloc[:, -1]
+
+    # print(Data_norm - Data_strd)
+
+    model = LinearRegression().fit(X_train, y_train)
+    print(model.coef_)
+    print(model.intercept_)
+    # print(model.)
