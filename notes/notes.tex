@@ -43,6 +43,9 @@
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\II}{\mathbf{I}}
 \newcommand{\IID}{\textsf{IID}}
+\newcommand{\ridge}{\textsf{ridge}}
+\newcommand{\lasso}{\textsf{lasso}}
+
 \newcommand{\Normal}[2]{\ensuremath{\mathcal N (#1, #2)}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -369,4 +372,31 @@ In the above, the $z$-score is denoted by \texttt t and measures the effect of
 dropping the variable from the model. An absolute value greater than $2$, means
 that with high probability this variable is significant.
  
+\section{Shrinkage}
+Dropping predictors is only one way we can potentially reduce the variance at
+the cost of introducing bias. By dropping some parameters we also get the
+advantage of having a smaller and more intuitive model. However, the downside of
+best subset selection is that it is a discrete process so it does not usually
+behave well.
+
+Ridge regression shrinks the coefficients of the linear regression but in a
+``homogeneous'' way. It does not allow for a huge shrinkage in one coefficient
+but no shrinkage in another. How can we enforce this?
+
+\begin{itemize}
+	\item Ridge regression. Here, we impose a universal penalty $\lambda$ and
+	hence we try to minimize the expression:
+	\[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
+	+ \lambda\sum_{j\in[p]}\beta_i^2\]
+
+	\item The lasso. Here we use a different norm and we have:
+	\[\RSS^\lasso(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
+	+ \lambda\sum_{j\in[p]}|\beta_i|\]
+
+	\item In general, we could have any norm, and so we would get
+	\[\RSS^q(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
+	+ \lambda \|\beta\|_q,\]
+	where $\beta=[\beta_1,\ldots,\beta_p]^T$, i.e., it does not include $\beta_0$.
+\end{itemize}
+
 \end{document}
