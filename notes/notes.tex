@@ -384,8 +384,8 @@ Ridge regression shrinks the coefficients of the linear regression but in a
 but no shrinkage in another. How can we enforce this?
 
 \begin{itemize}
-	\item Ridge regression. Here, we impose a universal penalty $\lambda$ and
-	hence we try to minimize the expression:
+	\item Ridge regression. Here, we impose a universal penalty defined via
+	the complexity parameter $\lambda$ and hence we try to minimize the expression:
 	\[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
 	+ \lambda\sum_{j\in[p]}\beta_i^2\]
 
@@ -394,9 +394,15 @@ but no shrinkage in another. How can we enforce this?
 	+ \lambda\sum_{j\in[p]}|\beta_i|\]
 
 	\item In general, we could have any norm, and so we would get
-	\[\RSS^q(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
-	+ \lambda \|\beta\|_q,\]
-	where $\beta=[\beta_1,\ldots,\beta_p]^T$, i.e., it does not include $\beta_0$.
+	\[\RSS^q(\lambda,\beta)=\RSS(\beta) + \lambda \|\beta\|_q,\] where
+	$\RSS(\beta)=(\yy-\XX\beta)^T(\yy-\XX\beta)$.
 \end{itemize}
+Notice that now, one cannot have too ``long'' coefficients since this would make
+the $\RSS$ considerably large. In other words, these new metrics, enforce
+picking small coefficients. This is not the case necessarily in a linear
+regression model since one could have a very large positive coefficient
+$\beta_i$ and a very large negative coefficient $\beta_j$. These, would cancel
+each other in $\RSS$ and could give us a small error, but would not cancel each
+other in these expanded versions.
 
 \end{document}
