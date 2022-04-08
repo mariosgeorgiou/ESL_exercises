@@ -405,4 +405,23 @@ $\beta_i$ and a very large negative coefficient $\beta_j$. These, would cancel
 each other in $\RSS$ and could give us a small error, but would not cancel each
 other in these expanded versions.
 
+\paragraph{Notes}
+\begin{itemize}
+	\item Ridge regression is not equivariant under scaling of inputs.
+	\item It is normal to first standardize the inputs before applying ridge
+	regression
+	\item We need to omit the intercept $\beta_0$ from the procedure. If we
+	don't, then shifting each target $y_i$ by a constant $c$ does not simply
+	shift the predictions by $c$. In other words, if we include $\beta_0$, then
+	the procedure would depend on the origin chosen for $Y$. I don't see why
+	this is bad. It is not a linear model if the first case.
+	\item Assuming we omit $\beta_0$ from the process, we work as follows:
+	\begin{enumerate}
+		\item Set $x_{i,j}=x_{i,j}-\overline x_j$, $i\in[N],j\in[p]$. 
+		\item Set $\beta_0=\overline y$
+		\item Run ridge regression without intercept, where $\XX$ has $p$
+		columns.
+	\end{enumerate}
+\end{itemize}
+
 \end{document}
