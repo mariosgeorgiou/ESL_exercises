@@ -39,6 +39,12 @@
 \newtheorem{note}{Note}
 
 \newcommand{\XX}{\mathbf{X}}
+\renewcommand{\AA}{\mathbf{A}}
+\newcommand{\QQ}{\mathbf{Q}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\DD}{\mathbf{D}}
+\newcommand{\VV}{\mathbf{V}}
+\newcommand{\LL}{\mathbf{\Lambda}}
 \newcommand{\YY}{\mathbf{Y}}
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\II}{\mathbf{I}}
@@ -386,12 +392,12 @@ but no shrinkage in another. How can we enforce this?
 \begin{itemize}
 	\item Ridge regression. Here, we impose a universal penalty defined via
 	the complexity parameter $\lambda$ and hence we try to minimize the expression:
-	\[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
-	+ \lambda\sum_{j\in[p]}\beta_i^2\]
+	\[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
+	+ \lambda\sum_{j\in[p]}\beta_j^2\]
 
 	\item The lasso. Here we use a different norm and we have:
-	\[\RSS^\lasso(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_i\beta_i\right)^2
-	+ \lambda\sum_{j\in[p]}|\beta_i|\]
+	\[\RSS^\lasso(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
+	+ \lambda\sum_{j\in[p]}|\beta_j|\]
 
 	\item In general, we could have any norm, and so we would get
 	\[\RSS^q(\lambda,\beta)=\RSS(\beta) + \lambda \|\beta\|_q,\] where
@@ -417,11 +423,60 @@ other in these expanded versions.
 	this is bad. It is not a linear model if the first case.
 	\item Assuming we omit $\beta_0$ from the process, we work as follows:
 	\begin{enumerate}
-		\item Set $x_{i,j}=x_{i,j}-\overline x_j$, $i\in[N],j\in[p]$. 
+		\item Set $x_{i,j}=x_{i,j}-\overline x_j$, $i\in[N],j\in[p]$. These are
+		called the \emph{centered} inputs. 
 		\item Set $\beta_0=\overline y$
 		\item Run ridge regression without intercept, where $\XX$ has $p$
 		columns.
 	\end{enumerate}
 \end{itemize}
+Now we just need to find
+\[\argmin_\beta \left[(\yy-\XX\beta)^T(\yy-\XX\beta) + \lambda\beta^T\beta\right],\]
+where $\XX$ has $p$ columns.
+
+\subsection{Ridge Interpretation as the Mode of a Distribution}
+Suppose that $y\sim \Normal{\beta_0+x^T\beta}{\sigma^2}$ and
+$\beta\sim\Normal{0}{\tau^2 \II}$. Now, given $N$ samples $(x_i,y_i)_{i\in[N]}$,
+what is the conditional distribution of $\beta$? Notice that there is a
+dependency between the samples and $\beta$, therefore, the distribution of
+$\beta$ given the samples is different than its original distribution. It can be
+shown that 
+\[-\log f(\beta|(x_i,y_i)_{i\in[N]})=\RSS^\lasso(\lambda,\beta),\] where
+$\lambda=\sigma^2/\tau^2$, where $f(\beta)$ is the conditional probability
+density function of $\beta$, given the samples.
+
+
+\section{Important Matrix Decompositions}
+
+\subsection{Eigendecomposition}
+Let $\AA$ be an $N\times N$ matrix with eigenvectors $q_1,\ldots,d_N$ and
+eigenvalues $\lambda_1,\ldots,\lambda_N$. Then we know that 
+\begin{equation}
+	\begin{split}
+		\AA q_i &=  q_i\lambda_i \\
+		\implies\AA\QQ &= \QQ\LL \\
+		\implies\AA &= \QQ\LL\QQ^{-1}\text{ and }\AA^{-1}=\QQ\LL^{-1}\QQ^{-1}
+	\end{split}
+\end{equation}
+where $\QQ=[q_1,\ldots,q_N]$ is an $N\times N$ matrix whose $i$th column is
+$q_i$. So if we know $Q$ and $Q^{-1}$, we can just invert $\LL$ and since
+$\diag^{-1}{(\lambda_1,\ldots,\lambda_N)}=\diag(1/\lambda_1,\ldots,1/\lambda_N)$,
+this is easy to calculate.
+
+\subsection{Singular Value Decomposition}
+SVD is the generalization of eigendecomposition for matrices that are not
+square. If $\XX$ is an $N\times p$ matrix, then it can be written as 
+\[\XX = \UU \DD \VV^T,\]
+where
+\begin{itemize}
+	\item $\UU=[u_1,\ldots,u_p]$ is $N\times p$. Its columns span the columnspace of $\XX$.
+	\item $\VV=[v_1,\ldots,v_p]$ is $p\times p$. Its columns span the rowspace of $\XX$.
+	\item $\DD=\diag{(d_1,\ldots,d_p)}$, such that $d_1\ge d_2\ldots\ge d_p\ge
+	0$, called the singular values of $\XX$.
+\end{itemize}
+We can rewrite $\XX$ as 
+\[\XX=\sum_{j\in[p]}d_iu_iv_i^T.\,\]
+which shows that $\XX$ can be written as the sum of $p$ rank-1 matrices.
+\subsection{QR Decomposition}
 
 \end{document}
