@@ -24,6 +24,7 @@
 \usepackage[most]{tcolorbox}
 \usepackage{xcolor}
 \usepackage{pagecolor}
+\usepackage{hyperref}
 
 % \pagecolor{black}
 % \color{white}
@@ -192,13 +193,13 @@ otherwise we reject it.
 
 \begin{shaded}
 	\textbf{Hypothesis testing using the $t$-distribution} \newline
-    As the sample size $n$ increases, the two distributions $\Normal 0 1$ and
-    $t_{n-1}$ look very alike and $t_\infty=\Normal 0 1$. Especially the
-    difference between their tail quantiles becomes negligible in $n$.
-    This suggests an easy way to verify the null hypothesis that $\mu=0$. Simply
-    take the quantity $\frac{\hat\mu}{\hat\sigma^2/\sqrt n}$ and check whether
-    it is far from zero. The further from zero it is, the more likely that the
-    null hypothesis does not hold and should be rejected.
+	As the sample size $n$ increases, the two distributions $\Normal 0 1$ and
+	$t_{n-1}$ look very alike and $t_\infty=\Normal 0 1$. Especially the
+	difference between their tail quantiles becomes negligible in $n$.
+	This suggests an easy way to verify the null hypothesis that $\mu=0$. Simply
+	take the quantity $\frac{\hat\mu}{\hat\sigma^2/\sqrt n}$ and check whether
+	it is far from zero. The further from zero it is, the more likely that the
+	null hypothesis does not hold and should be rejected.
 \end{shaded}
 
 
@@ -223,9 +224,9 @@ has two degrees of freedom $d_1,d_2$ and we write $F_{d_1,d_2}$.
 \end{shaded}
 
 \begin{defn}
-    Suppose $S_1\sim\chi_{d_1}^2$ and $S_2\sim\chi_{d_2}^2$ are two independent
-    random variables. Then 
-    \[X=\frac{S_1/d_1}{S_2/d_2}\sim F_{d_1,d_2}.\]
+	Suppose $S_1\sim\chi_{d_1}^2$ and $S_2\sim\chi_{d_2}^2$ are two independent
+	random variables. Then
+	\[X=\frac{S_1/d_1}{S_2/d_2}\sim F_{d_1,d_2}.\]
 \end{defn}
 So it is the ratio of two independent appropriately scaled $\chi^2$ distributions.
 
@@ -247,7 +248,7 @@ parameters of the real distribution.
 \paragraph{Example.} Suppose that $\hat x=\hat\mu=E_i x_i$ is the average (sample mean,
 mean estimation) of the $x_i$s. We saw earlier that $E[\hat{x}]=\mu$. Moreover,
 $\hat\sigma=\frac{N}{N-1}E_i(x_i-\hat\mu)^2$ is the sample variance such that
-$E[\hat\sigma^2]=\sigma^2$. Then the Z-score of $\hat x$, is 
+$E[\hat\sigma^2]=\sigma^2$. Then the Z-score of $\hat x$, is
 \[z=\frac{\hat x-E[\hat x]}{\hat\sigma/\sqrt{N}}.\]
 This follows the distribution $t_{N-1}$ as we saw.
 
@@ -263,12 +264,12 @@ As before, $E[\hat\sigma^2]=\sigma^2$.
 
 Now, let's additionally assume that the real model is linear; i.e.
 $E[Y|X]=X^T\beta$ and $Y=X^T\beta+\varepsilon$, where
-$\varepsilon\sim\Normal{0}{\sigma^2}$. 
+$\varepsilon\sim\Normal{0}{\sigma^2}$.
 
 In this case, our beta estimator $\hat\beta$ is also normal:
 \[\hat\beta\sim\Normal{\beta}{(\XX^T\XX)^{-1}\sigma^2}.\]
 
-Moreover, $(N-p-1)\hat\sigma^2\sim\sigma^2\chi^2_{N-p-1}$ similarly to what we 
+Moreover, $(N-p-1)\hat\sigma^2\sim\sigma^2\chi^2_{N-p-1}$ similarly to what we
 had above but for more dimensions.
 
 Also, $\Cov(\hat\beta,\hat\sigma^2)=0$. We define the Z-score of $\hat\beta_j$
@@ -279,12 +280,12 @@ the only unknown is $\beta_j$. So we can possibly plug different values until we
 find an expression that is close to 0.
 
 For example, if we make the null hypothesis that $\beta_j=0$, then $z_j\sim
-t_{N-p-1}$, which is almost the same as $\Normal 0 1$.
+	t_{N-p-1}$, which is almost the same as $\Normal 0 1$.
 
 \subsection{Removing more variables}
 Often, we may have a feeling that there is a group of coefficients that does not
 affect the dependent variable. In this case, we can apply least squares
-\emph{with} and \emph{without} this set of variables getting $\RSS_1$ and 
+\emph{with} and \emph{without} this set of variables getting $\RSS_1$ and
 $\RSS_0$ respectively. In this case, the F-statistic is:
 \[F=\frac{(\RSS_0-\RSS_1)(p_1-p_0)}{\RSS_1/(N-p_1-1)},\] where $p_1+1$ is number
 of parameters of the bigger model and $p_0+1$ is the number of parameters of the
@@ -316,15 +317,15 @@ We have
 where $c$ is the 95\% percentile of the standard normal distribution. Hence,
 with probability 95\%,
 \[\beta_j\in
-(\hat\beta_j-c\hat\sigma\sqrt{v_j},\hat\beta_j+c\hat\sigma\sqrt{v_j}),\] where
+	(\hat\beta_j-c\hat\sigma\sqrt{v_j},\hat\beta_j+c\hat\sigma\sqrt{v_j}),\] where
 $\hat\sigma\sqrt{v_j}=\mathrm{se}(\hat\beta_j)$ is the standard error of
 $\hat\beta_j$. By approximating $c=2$, we get the standard practice of reporting
 $\hat\beta_j\pm \mathrm{se}(\hat\beta_j)$ as the 95\% confidence interval.
 
 \subsection{Reproducing Correlation Matrix}
 By running the python script \texttt{prostate-data/correlation.py}, we get
-{\footnotesize
-\begin{verbatim}
+	{\footnotesize
+		\begin{verbatim}
                                  Correlation Matrix
 ========================================================================================
            cavol  lweight      age     lbph      svi      lcp  gleason    pgg45     lpsa
@@ -372,12 +373,12 @@ Notes:
 
 <F test: F=1.6697548846375199, p=0.16933707265225223, df_denom=58, df_num=4>
 \end{verbatim}
-}
+	}
 
 In the above, the $z$-score is denoted by \texttt t and measures the effect of
 dropping the variable from the model. An absolute value greater than $2$, means
 that with high probability this variable is significant.
- 
+
 \section{Shrinkage}
 Dropping predictors is only one way we can potentially reduce the variance at
 the cost of introducing bias. By dropping some parameters we also get the
@@ -391,17 +392,17 @@ but no shrinkage in another. How can we enforce this?
 
 \begin{itemize}
 	\item Ridge regression. Here, we impose a universal penalty defined via
-	the complexity parameter $\lambda$ and hence we try to minimize the expression:
-	\[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
-	+ \lambda\sum_{j\in[p]}\beta_j^2\]
+	      the complexity parameter $\lambda$ and hence we try to minimize the expression:
+	      \[\RSS^\ridge(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
+		      + \lambda\sum_{j\in[p]}\beta_j^2\]
 
 	\item The lasso. Here we use a different norm and we have:
-	\[\RSS^\lasso(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
-	+ \lambda\sum_{j\in[p]}|\beta_j|\]
+	      \[\RSS^\lasso(\lambda,\beta)=\sum_{i\in[N]}\left(y_i-\beta_0-\sum_{j\in[p]}x_{i,j}\beta_j\right)^2
+		      + \lambda\sum_{j\in[p]}|\beta_j|\]
 
 	\item In general, we could have any norm, and so we would get
-	\[\RSS^q(\lambda,\beta)=\RSS(\beta) + \lambda \|\beta\|_q,\] where
-	$\RSS(\beta)=(\yy-\XX\beta)^T(\yy-\XX\beta)$.
+	      \[\RSS^q(\lambda,\beta)=\RSS(\beta) + \lambda \|\beta\|_q,\] where
+	      $\RSS(\beta)=(\yy-\XX\beta)^T(\yy-\XX\beta)$.
 \end{itemize}
 Notice that now, one cannot have too ``long'' coefficients since this would make
 the $\RSS$ considerably large. In other words, these new metrics, enforce
@@ -415,20 +416,20 @@ other in these expanded versions.
 \begin{itemize}
 	\item Ridge regression is not equivariant under scaling of inputs.
 	\item It is normal to first standardize the inputs before applying ridge
-	regression
+	      regression
 	\item We need to omit the intercept $\beta_0$ from the procedure. If we
-	don't, then shifting each target $y_i$ by a constant $c$ does not simply
-	shift the predictions by $c$. In other words, if we include $\beta_0$, then
-	the procedure would depend on the origin chosen for $Y$. I don't see why
-	this is bad. It is not a linear model if the first case.
+	      don't, then shifting each target $y_i$ by a constant $c$ does not simply
+	      shift the predictions by $c$. In other words, if we include $\beta_0$, then
+	      the procedure would depend on the origin chosen for $Y$. I don't see why
+	      this is bad. It is not a linear model if the first case.
 	\item Assuming we omit $\beta_0$ from the process, we work as follows:
-	\begin{enumerate}
-		\item Set $x_{i,j}=x_{i,j}-\overline x_j$, $i\in[N],j\in[p]$. These are
-		called the \emph{centered} inputs. 
-		\item Set $\beta_0=\overline y$
-		\item Run ridge regression without intercept, where $\XX$ has $p$
-		columns.
-	\end{enumerate}
+	      \begin{enumerate}
+		      \item Set $x_{i,j}=x_{i,j}-\overline x_j$, $i\in[N],j\in[p]$. These are
+		            called the \emph{centered} inputs.
+		      \item Set $\beta_0=\overline y$
+		      \item Run ridge regression without intercept, where $\XX$ has $p$
+		            columns.
+	      \end{enumerate}
 \end{itemize}
 Now we just need to find
 \[\argmin_\beta \left[(\yy-\XX\beta)^T(\yy-\XX\beta) + \lambda\beta^T\beta\right],\]
@@ -440,7 +441,7 @@ $\beta\sim\Normal{0}{\tau^2 \II}$. Now, given $N$ samples $(x_i,y_i)_{i\in[N]}$,
 what is the conditional distribution of $\beta$? Notice that there is a
 dependency between the samples and $\beta$, therefore, the distribution of
 $\beta$ given the samples is different than its original distribution. It can be
-shown that 
+shown that
 \[-\log f(\beta|(x_i,y_i)_{i\in[N]})=\RSS^\lasso(\lambda,\beta),\] where
 $\lambda=\sigma^2/\tau^2$, where $f(\beta)$ is the conditional probability
 density function of $\beta$, given the samples.
@@ -450,7 +451,7 @@ density function of $\beta$, given the samples.
 
 \subsection{Eigendecomposition}
 Let $\AA$ be an $N\times N$ matrix with eigenvectors $q_1,\ldots,d_N$ and
-eigenvalues $\lambda_1,\ldots,\lambda_N$. Then we know that 
+eigenvalues $\lambda_1,\ldots,\lambda_N$. Then we know that
 \begin{equation}
 	\begin{split}
 		\AA q_i &=  q_i\lambda_i \\
@@ -465,18 +466,30 @@ this is easy to calculate.
 
 \subsection{Singular Value Decomposition}
 SVD is the generalization of eigendecomposition for matrices that are not
-square. If $\XX$ is an $N\times p$ matrix, then it can be written as 
+square. If $\XX$ is an $N\times p$ matrix, then it can be written as
 \[\XX = \UU \DD \VV^T,\]
 where
 \begin{itemize}
-	\item $\UU=[u_1,\ldots,u_p]$ is $N\times p$. Its columns span the columnspace of $\XX$.
-	\item $\VV=[v_1,\ldots,v_p]$ is $p\times p$. Its columns span the rowspace of $\XX$.
+	\item $\UU=[u_1,\ldots,u_p]$ is $N\times p$. Its columns span the
+	columnspace of $\XX$. It is unitary.
+	\item $\VV=[v_1,\ldots,v_p]$ is $p\times p$. Its columns span the rowspace
+	of $\XX$. It is also unitary.
 	\item $\DD=\diag{(d_1,\ldots,d_p)}$, such that $d_1\ge d_2\ldots\ge d_p\ge
-	0$, called the singular values of $\XX$.
+		      0$, called the singular values of $\XX$.
 \end{itemize}
-We can rewrite $\XX$ as 
+We can rewrite $\XX$ as
 \[\XX=\sum_{j\in[p]}d_iu_iv_i^T.\,\]
 which shows that $\XX$ can be written as the sum of $p$ rank-1 matrices.
+
+More intuition about SVD can be found
+\href{https://stats.stackexchange.com/questions/177102/what-is-the-intuition-behind-svd}{here}.
+
+We see that
+\[\XX^T\XX=\VV\DD^T\UU^T\UU\DD\VV^T=\VV(\DD^T\DD)\VV^T\]
+\[\XX\XX^T=\UU\DD\VV^T\VV\DD^T\UU^T=\UU(\DD\DD^T)\UU^T\]
+
+So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
+
 \subsection{QR Decomposition}
 
 \end{document}
