@@ -7,3 +7,4 @@
 /indent.log
 /zipcode
 *.out
+svd example/out.png

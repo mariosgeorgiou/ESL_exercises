@@ -42,6 +42,7 @@
 \newcommand{\XX}{\mathbf{X}}
 \renewcommand{\AA}{\mathbf{A}}
 \newcommand{\QQ}{\mathbf{Q}}
+\newcommand{\RR}{\mathbf{R}}
 \newcommand{\UU}{\mathbf{U}}
 \newcommand{\DD}{\mathbf{D}}
 \newcommand{\VV}{\mathbf{V}}
@@ -471,9 +472,10 @@ square. If $\XX$ is an $N\times p$ matrix, then it can be written as
 where
 \begin{itemize}
 	\item $\UU=[u_1,\ldots,u_p]$ is $N\times p$. Its columns span the
-	columnspace of $\XX$. It is unitary.
+	columnspace of $\XX$. It is orthogonal, meaning $\UU^T=\UU^{-1}$, and more
+	generally, it is unitary, if complex ($\UU^*=\UU^{-1}$).
 	\item $\VV=[v_1,\ldots,v_p]$ is $p\times p$. Its columns span the rowspace
-	of $\XX$. It is also unitary.
+	of $\XX$. Similarly, it is also unitary: $\VV^T=\VV^{-1}$.
 	\item $\DD=\diag{(d_1,\ldots,d_p)}$, such that $d_1\ge d_2\ldots\ge d_p\ge
 		      0$, called the singular values of $\XX$.
 \end{itemize}
@@ -491,5 +493,16 @@ We see that
 So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
 
 \subsection{QR Decomposition}
+The QR decomposition states that any real $N\times p$ matrix $\XX$ can be written as 
+\[\XX=\QQ\RR,\]
+where
+\begin{itemize}
+	\item $\QQ$ is an $N\times p$ orthogonal matrix, meaning $\QQ^T=\QQ^{-1}$.
+	\item $\RR$ is a $p\times p$ upper triangular matrix.
+\end{itemize}
+
+We know of three ways to create the QR decomposition: (a) Gram-Schmidt, (b)
+Householder reflections, which is very similar to Grover's algorithm, and (c)
+Givens rotations.
 
 \end{document}
