@@ -25,7 +25,9 @@
 \usepackage{xcolor}
 \usepackage{pagecolor}
 \usepackage{hyperref}
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algtext*{EndFor}
 % \pagecolor{black}
 % \color{white}
 
@@ -40,6 +42,11 @@
 \newtheorem{note}{Note}
 
 \newcommand{\XX}{\mathbf{X}}
+\newcommand{\xx}{\mathbf{x}}
+\newcommand{\zz}{\mathbf{z}}
+\newcommand{\ZZ}{\mathbf{Z}}
+\newcommand{\GG}{\mathbf{\Gamma}}
+\newcommand{\rr}{\mathbf{r}}
 \renewcommand{\AA}{\mathbf{A}}
 \newcommand{\QQ}{\mathbf{Q}}
 \newcommand{\RR}{\mathbf{R}}
@@ -50,11 +57,13 @@
 \newcommand{\YY}{\mathbf{Y}}
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\II}{\mathbf{I}}
+\newcommand{\onevec}{\mathbf{1}}
 \newcommand{\IID}{\textsf{IID}}
 \newcommand{\ridge}{\textsf{ridge}}
 \newcommand{\lasso}{\textsf{lasso}}
 
 \newcommand{\Normal}[2]{\ensuremath{\mathcal N (#1, #2)}}
+\newcommand{\ip}[2]{\ensuremath{\left\langle#1, #2\right\rangle}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
@@ -472,10 +481,10 @@ square. If $\XX$ is an $N\times p$ matrix, then it can be written as
 where
 \begin{itemize}
 	\item $\UU=[u_1,\ldots,u_p]$ is $N\times p$. Its columns span the
-	columnspace of $\XX$. It is orthogonal, meaning $\UU^T=\UU^{-1}$, and more
-	generally, it is unitary, if complex ($\UU^*=\UU^{-1}$).
+	      columnspace of $\XX$. It is orthogonal, meaning $\UU^T=\UU^{-1}$, and more
+	      generally, it is unitary, if complex ($\UU^*=\UU^{-1}$).
 	\item $\VV=[v_1,\ldots,v_p]$ is $p\times p$. Its columns span the rowspace
-	of $\XX$. Similarly, it is also unitary: $\VV^T=\VV^{-1}$.
+	      of $\XX$. Similarly, it is also unitary: $\VV^T=\VV^{-1}$.
 	\item $\DD=\diag{(d_1,\ldots,d_p)}$, such that $d_1\ge d_2\ldots\ge d_p\ge
 		      0$, called the singular values of $\XX$.
 \end{itemize}
@@ -493,7 +502,7 @@ We see that
 So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
 
 \subsection{QR Decomposition}
-The QR decomposition states that any real $N\times p$ matrix $\XX$ can be written as 
+The QR decomposition states that any real $N\times p$ matrix $\XX$ can be written as
 \[\XX=\QQ\RR,\]
 where
 \begin{itemize}
@@ -505,4 +514,106 @@ We know of three ways to create the QR decomposition: (a) Gram-Schmidt, (b)
 Householder reflections, which is very similar to Grover's algorithm, and (c)
 Givens rotations.
 
+\section{Intuition of Linear Regression}
+Linear regression is defined as
+\[\hat\beta=(\XX^T\XX)^{-1}\XX^T y.\] However, this does not give us any
+intuition other than it being the argmax of the residual sum of squares. Here we
+start with the basics, and we first consider the scenario of univariate
+regression.
+
+Suppose that we have only one variable and $N$ samples, hence
+$\xx=\XX\in\mathbb{R}^{N\times 1}$ where $\xx=[x_1,\ldots,x_N]^T$. As always,
+suppose $\yy=[y_1,\ldots,y_N]^T$. What is the least squares estimate in this
+case? Minimizing the RSS, we get
+\[\hat\beta=\frac{\sum_{i=1}^N x_iy_i}{\sum_{i=1}^N
+		x_ix_i}=\frac{\ip\xx\yy}{\ip\xx\xx},\]
+
+called the \emph{univariate estimate}. Since
+$\mathrm{proj}_\xx\yy=\hat\beta\xx$, we see that $\hat\beta$ corresponds to the
+length of the projection of $\yy$ on $\xx$ as a fraction of the length of $\xx$.
+
+Moreover, letting $r_i=y_i-x_i\hat\beta$, we get
+$\rr=\yy-\xx\hat\beta=\yy-\mathrm{proj}_\xx\yy$. In other words, the residuals
+are just the vectors that need to be added to the projection to get $\yy$.
+Observe that the residual $\rr$ from regressing $\yy$ on $\xx$ is orthogonal to
+$\xx$, i.e., $\ip\rr\xx=0$.
+
+\subsection{Orthogonal Inputs}
+Suppose now that we have $p$ variables and hence $\XX=[\xx_1,\ldots,\xx_p]$,
+with $\xx_i\in\mathbb{R}^N$. Suppose, moreover, that $\ip{\xx_j}{\xx_k}=0$ for
+any $j\ne k$. Then we can see that each $\hat\beta_j$ depends only on $\xx_j$
+and $\yy$, and in particular,
+\[\hat\beta_j=\frac{\ip{\xx_j}\yy}{\ip{\xx_j}{\xx_j}}.\] So for each variable,
+the corresponding estimate is independent of the other variables.
+
+\subsection{General Inputs}
+In general, the inputs are rarely orthogonal and therefore we cannot conclude
+that $\hat\beta_j$ depends only on $\xx_j$. However, if we first orthogonalize
+the inputs, then this idea carries over. We apply this orthogonalization in the
+next two subsections.
+
+\subsubsection{Univariate Regression with Intercept}
+Consider a single variable again, so $\xx=[x_1,\ldots,x_N]^T$ but that we
+additionally have an intercept $\hat\beta_0$ that we want to compute. Denote
+$\xx_0=[1,\ldots,1]^T=\onevec_N$. Then, if we regress $\xx$ on $\xx_0$, we get
+coefficient
+\[\hat\beta_0=\frac{\ip{\xx_0}\xx}{\ip{\xx_0}{\xx_0}}=\frac{\sum x_i}{N}=E_ix_i=\overline{x}\]
+and residual
+\[\zz=\xx-\overline{x}\xx_0=\xx-\overline{x}\onevec.\]
+
+Finally, to compute $\hat\beta_1$, we regress $\yy$ on $\zz$ and we get
+\[\hat\beta_1=\frac{\ip\yy\zz}{\ip\zz\zz}=\frac{\ip\yy{\xx-\overline{x}\onevec}}{\ip{\xx-\overline{x}\onevec}{\xx-\overline{x}\onevec}}\]
+
+So what we did was
+\begin{enumerate}
+	\item We adjust $\xx$ for $\onevec$, getting a coefficient $\hat\beta_0$ and
+	      residual $\zz=\xx-\hat\beta_0\onevec$.
+	\item We adjust $\yy$ for $\zz$ getting a coefficient $\hat\beta_1$ and
+	      residual $\zz'=\yy-\hat\beta_1\zz$ (although we are not interested in the
+	      final residual).
+\end{enumerate}
+
+\subsubsection{Many Variables}
+So, now we can easily generalize.
+\begin{algorithm}
+	\caption{Regression by Succesive orthogonalization}\label{alg:Gram-Schmidt}
+	\begin{algorithmic}
+		\State $\xx_0=\zz_0=\onevec$
+		\For{$j=1,\ldots,p$}
+		\State Regress $\xx_i$ on all \emph{previous} $\zz_0,\ldots,\zz_{j-1}$ 
+		to get coefficients $\hat\gamma_{0,j},\ldots,\hat\gamma_{j-1,j}$ and
+		residual $\zz_j=\xx_j-\sum \gamma_{\ell,j}\zz_\ell$.
+		\EndFor
+		\State Regress $\yy$ on $\zz_p$ to get coefficient $\hat\beta_p$.
+	\end{algorithmic}
+\end{algorithm}
+
+Notice that since all $\zz_j$ are orthogonal to each other, they form a basis
+for the column space of $\XX$.
+
+So overall, if we want the estimate $\hat\beta_j$, all we need to do is adjust
+$\xx_j$ for $\xx_1,\ldots,\xx_{j-1},\xx_{j+1},\ldots,\xx_p$ getting residual
+$\zz_j$, and then adjust $\yy$ for $\zz_j$.
+
+\begin{shaded}
+	\textbf{Intuition on coefficients} \newline
+	The coefficient $\hat\beta_j$ represents the information of $\yy$ that
+	depends of $\xx_j$, after $\xx_j$ has been adjusted for the remaining
+	predictors.
+\end{shaded}
+
+Before, we saw that the variance-covariance matrix of the estimates is
+\[\Var{[\hat\beta]}=(\XX^T\XX)^{-1}\sigma^2.\]
+An alternative formular of the estimates variance is 
+\[\Var{[\hat\beta_j]}=\frac{\sigma^2}{\ip{\zz_j}{\zz_j}}.\]
+
+Notice that if $\xx_j$ is very correlated with one or more other parameters,
+then the corresponding residual $\zz_j$ will be very short. In this case, it
+would be better to use the Z-score to remove it. Moreover, notice that in this
+case, its variance will be huge.
+
+\subsubsection{Another interpretation of QR Decomposition}
+If we set $\ZZ=[\zz_1,\ldots,\zz_p]$ and $\GG$ as the matrix with elements
+$\hat\gamma_{\ell,j}$, then we get
+\[\XX=\ZZ\GG.\]
 \end{document}
