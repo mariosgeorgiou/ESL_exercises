@@ -53,6 +53,7 @@
 \newcommand{\UU}{\mathbf{U}}
 \newcommand{\DD}{\mathbf{D}}
 \newcommand{\VV}{\mathbf{V}}
+\newcommand{\HH}{\mathbf{H}}
 \newcommand{\LL}{\mathbf{\Lambda}}
 \newcommand{\YY}{\mathbf{Y}}
 \newcommand{\yy}{\mathbf{y}}
@@ -419,8 +420,9 @@ the $\RSS$ considerably large. In other words, these new metrics, enforce
 picking small coefficients. This is not the case necessarily in a linear
 regression model since one could have a very large positive coefficient
 $\beta_i$ and a very large negative coefficient $\beta_j$. These, would cancel
-each other in $\RSS$ and could give us a small error, but would not cancel each
-other in these expanded versions.
+each other in $\RSS$ and could give us a small error, yet a very large variance.
+On the other hand, they would not cancel each other in these expanded versions
+since we add up their absolute values.
 
 \paragraph{Notes}
 \begin{itemize}
@@ -450,11 +452,14 @@ Suppose that $y\sim \Normal{\beta_0+x^T\beta}{\sigma^2}$ and
 $\beta\sim\Normal{0}{\tau^2 \II}$. Now, given $N$ samples $(x_i,y_i)_{i\in[N]}$,
 what is the conditional distribution of $\beta$? Notice that there is a
 dependency between the samples and $\beta$, therefore, the distribution of
-$\beta$ given the samples is different than its original distribution. It can be
-shown that
+$\beta$ given the samples is not necessarily the same as original distribution.
+It can be shown that
 \[-\log f(\beta|(x_i,y_i)_{i\in[N]})=\RSS^\lasso(\lambda,\beta),\] where
-$\lambda=\sigma^2/\tau^2$, where $f(\beta)$ is the conditional probability
-density function of $\beta$, given the samples.
+$\lambda=\sigma^2/\tau^2$ and $f(\beta)$ is the conditional probability density
+function of $\beta$, given the samples.
+
+Now, by definition,
+\[\argmax_\beta\RSS^\lasso(\lambda,\beta) = \text{mode}(f).\]
 
 
 \section{Important Matrix Decompositions}
@@ -615,5 +620,27 @@ case, its variance will be huge.
 \subsubsection{Another interpretation of QR Decomposition}
 If we set $\ZZ=[\zz_1,\ldots,\zz_p]$ and $\GG$ as the matrix with elements
 $\hat\gamma_{\ell,j}$, then we get
-\[\XX=\ZZ\GG.\]
+\[\XX=\ZZ\GG,\] where $\GG$ is upper triangular. Notice that although the
+columns of $\ZZ$ are orthogonal, they are not also orthonormal. By dividing each
+row with its length $\|\zz_i\|$ we can make them orthonormal. This is expressed
+by introducing the matrix $\DD=\diag(\|\zz_0\|,\ldots,\|\zz_p\|)$ and having 
+\[\QQ = \ZZ\DD^{-1}\] and \[\RR=\DD\GG.\] Now, $\QQ$ is orthonormal, and so,
+$\QQ^T\QQ=\II$ and $\RR$ remains upper triangular.
+
+Notice that now, we can get another least squares solution by setting to zero
+the first derivative
+\begin{equation}
+	\begin{split}
+		\XX^T(\yy-\XX\beta) &= \RR^T\QQ^T(\yy-\QQ\RR\beta) \\
+		&= \RR^T\QQ^T\yy - \RR^T\RR\beta.
+	\end{split}
+\end{equation}
+We get 
+\[\RR^T\RR\beta = \RR^T\QQ^T\yy\implies \RR\beta = \QQ^T\yy\implies \hat\beta =
+\RR^{-1}\QQ^T\yy.\] Of course, this assumes that $\RR^T$ (and therefore $\RR$)
+is invertible. Moreover, the hat matrix can now be computed as
+\[\hat\yy=\XX\hat\beta=\XX\RR^{-1}\QQ^T\yy=\QQ\RR\RR^{-1}\QQ^T\yy=\QQ\QQ^T\yy =
+\HH\yy.\]
+
+
 \end{document}
