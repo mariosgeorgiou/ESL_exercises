@@ -7,5 +7,4 @@ and Jerome Friedman. It contains two main Tex documents:
 explained in the book.
 - In the `exercises` folder there are solutions to the book's exercises.
 
-Additionally, it contains related code - mainly using the pandas, sklearn and 
-statistics modules.
+Related code is also provided when needed.
