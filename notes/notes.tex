@@ -51,8 +51,11 @@
 \newcommand{\QQ}{\mathbf{Q}}
 \newcommand{\RR}{\mathbf{R}}
 \newcommand{\UU}{\mathbf{U}}
+\newcommand{\uu}{\mathbf{u}}
 \newcommand{\DD}{\mathbf{D}}
 \newcommand{\VV}{\mathbf{V}}
+\newcommand{\vv}{\mathbf{v}}
+\renewcommand{\SS}{\mathbf{S}}
 \newcommand{\HH}{\mathbf{H}}
 \newcommand{\LL}{\mathbf{\Lambda}}
 \newcommand{\YY}{\mathbf{Y}}
@@ -62,6 +65,8 @@
 \newcommand{\IID}{\textsf{IID}}
 \newcommand{\ridge}{\textsf{ridge}}
 \newcommand{\lasso}{\textsf{lasso}}
+\newcommand{\ls}{\textsf{ls}}
+\newcommand{\df}{\textsf{df}}
 
 \newcommand{\Normal}[2]{\ensuremath{\mathcal N (#1, #2)}}
 \newcommand{\ip}[2]{\ensuremath{\left\langle#1, #2\right\rangle}}
@@ -461,6 +466,24 @@ function of $\beta$, given the samples.
 Now, by definition,
 \[\argmax_\beta\RSS^\lasso(\lambda,\beta) = \text{mode}(f).\]
 
+\subsection{Solution of Ridge Regression}
+Minimizing the criterion $\RSS(\lambda,\beta) = \RSS(\beta) + \lambda\|\beta\|_2
+= (\yy-\XX\beta)^T(\yy-\XX\beta)+\lambda\beta^T\beta$, gives us the solution
+\[
+	\hat\beta^\ridge = (\XX^T\XX+\lambda \II)^{-1}\XX^T\yy.\]
+Compare this with the least squares solution 
+\[\hat\beta = (\XX^T\XX)^{-1}\XX^T\yy.\]
+
+\paragraph{Observation.} Note that in ridge regression, as with least squares,
+it is very rare that a coefficient will be zero. On the other hand, we would be
+interested in being able to compare the ridge solution with the subset selection
+solution. This becomes possible using the effective degrees of freedom:
+\[\df(\lambda)=\tr[\XX(\XX^T\XX+\lambda\II)^{-1}\XX^T]=\sum_{j=1}^p\frac{d_j^2}{d_j^2+\lambda}.\]
+
+Notice that this value is at most $p$ and if $\lambda=0$, we get the standard
+least squares solution and $\df(0)=p$. By setting some of the coefficients to 0
+in subset selection, we get a smaller value.
+
 
 \section{Important Matrix Decompositions}
 
@@ -505,6 +528,32 @@ We see that
 \[\XX\XX^T=\UU\DD\VV^T\VV\DD^T\UU^T=\UU(\DD\DD^T)\UU^T\]
 
 So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
+
+\subsubsection{Applying SVD to Least Squares and Ridge Regression}
+
+\paragraph{Least Squares.} The least squares fitted vector can be written as 
+\begin{equation}
+	\begin{split}
+		\hat\yy^\ls &= \XX\hat\beta^\ls \\
+		&= \XX(\XX^T\XX)^{-1}\XX^T\yy \\
+		&= \UU\UU^T\yy.
+	\end{split}
+\end{equation}
+In other words, $\UU\UU^T$ is another hat matrix.
+
+\paragraph{Ridge.} Now for ridge regression, the fitted vector can be written as 
+\begin{equation}
+	\begin{split}
+		\hat\yy^\ridge &= \XX\hat\beta^\ridge \\
+		&= \UU\DD(\DD\DD^T+\lambda\II)^{-1}\DD\UU^T\yy \\
+		&= \sum_{j=1}^p\uu_j\frac{d_j^2}{d_j^2+\lambda}\uu_j^T\yy,
+	\end{split}
+\end{equation}
+where $\uu_j$ are the column vectors of $\UU$.
+
+We see that ridge regression, like linear regression computes the coordinates of
+$\yy$ with respect to the orthonormal basis $\UU$. The difference is that ridge
+regression also shrinks these coordinates by the fraction above.
 
 \subsection{QR Decomposition}
 The QR decomposition states that any real $N\times p$ matrix $\XX$ can be written as
@@ -642,5 +691,33 @@ is invertible. Moreover, the hat matrix can now be computed as
 \[\hat\yy=\XX\hat\beta=\XX\RR^{-1}\QQ^T\yy=\QQ\RR\RR^{-1}\QQ^T\yy=\QQ\QQ^T\yy =
 \HH\yy.\]
 
+
+\section{Principal Components}
+Let $\XX=\UU\DD\VV^T$ be the SVD decomposition of $\XX$. The eigendecomposition
+of $\XX^T\XX$ is 
+\[\XX^T\XX=\VV\DD^T\DD\VV^T,\] so the column vectors of $\VV$ are the
+eigenvectors of $\XX^T\XX$ and the corresponding eigenvalues are the elements of
+the diagonal of $\DD^T\DD$. The columns $\vv_j$ of $\VV$ are also called the
+principal components \emph{directions} of $\XX$. The corresponding principal
+components of $\XX$ are then $\zz_j=\XX\vv_j=\uu_jd_j$, where $d_j$ are the
+singular values of $\XX$. Moreover, $\uu_j$ are the normalized principal
+components.
+
+Notice that up to a scalar $N$, the above is also the sample covariance matrix.
+In other words,
+\[\SS=\frac{\XX^T\XX}{N}.\]
+
+\paragraph{Takeaways.}
+\begin{center}
+	\emph{ The small singular values correspond to directions in the column
+	space of $\XX$ having small variance. Ridge regression shrinks these
+	directions the most.}
+\end{center}
+
+\begin{center}
+	\emph{ Conversely, the eigenvectors with the largest eigenvalues of the
+	(sample) covariance matrix are the directions along which $\XX$ has the
+	maximum variance.}
+\end{center}
 
 \end{document}
