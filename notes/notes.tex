@@ -484,6 +484,11 @@ Notice that this value is at most $p$ and if $\lambda=0$, we get the standard
 least squares solution and $\df(0)=p$. By setting some of the coefficients to 0
 in subset selection, we get a smaller value.
 
+\begin{center}
+	\emph{Assuming that the response has higher variance along the directions of
+	inputs with higher variance, Ridge regression performs better.}
+\end{center}
+
 
 \section{Important Matrix Decompositions}
 
@@ -716,8 +721,30 @@ In other words,
 
 \begin{center}
 	\emph{ Conversely, the eigenvectors with the largest eigenvalues of the
-	(sample) covariance matrix are the directions along which $\XX$ has the
-	maximum variance.}
+	(sample) covariance matrix correspond the directions along which $\XX$ has
+	the maximum variance.}
 \end{center}
+
+\section{A Few Notes on the Lasso}
+The lasso solution is:
+\[
+	\hat\beta^\lasso=\argmin_\beta \left(\frac{1}{2}\sum_{i=1}^N \left(y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j\right)^2 + \lambda\sum_{j=1}^p|\beta_j|\right)\]
+
+Contrary to ridge regression, there is no analytical solution. Nonetheless, it
+can be found algorithmically with around the same complexity as ridge. This is
+interesting because the ridge solution can be computed by just multiplying some
+matrices (or maybe by using a modification of Gram-Schmidt?). So my guess is
+that the ridge solution can be computed in around $O(N^3)$ time.
+
+If $\lambda$ is sufficiently small, some of the coefficients will be 0 but it is
+not clear why. For an intuition, see
+\href{https://stats.stackexchange.com/questions/74542/why-does-the-lasso-provide-variable-selection}{here}.
+
+Let $\hat\beta^\ls$ be the least squares coefficients. If
+$t>\|\hat\beta^\ls\|_1$, then $t$ is too large and the solution gives again the
+least squares coefficients. Intuitively, if $t>\|\hat\beta^\ls\|_1/2$, then the
+lasso solution is around half the least squares solution; i.e.,
+$\|\hat\beta^\lasso\|_1 \approx \|\hat\beta^\ls\|_1/2$. This is interesting. Can
+we prove this?
 
 \end{document}
