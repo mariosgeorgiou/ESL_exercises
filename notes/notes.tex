@@ -468,10 +468,10 @@ Now, by definition,
 
 \subsection{Solution of Ridge Regression}
 Minimizing the criterion $\RSS(\lambda,\beta) = \RSS(\beta) + \lambda\|\beta\|_2
-= (\yy-\XX\beta)^T(\yy-\XX\beta)+\lambda\beta^T\beta$, gives us the solution
+	= (\yy-\XX\beta)^T(\yy-\XX\beta)+\lambda\beta^T\beta$, gives us the solution
 \[
 	\hat\beta^\ridge = (\XX^T\XX+\lambda \II)^{-1}\XX^T\yy.\]
-Compare this with the least squares solution 
+Compare this with the least squares solution
 \[\hat\beta = (\XX^T\XX)^{-1}\XX^T\yy.\]
 
 \paragraph{Observation.} Note that in ridge regression, as with least squares,
@@ -486,7 +486,7 @@ in subset selection, we get a smaller value.
 
 \begin{center}
 	\emph{Assuming that the response has higher variance along the directions of
-	inputs with higher variance, Ridge regression performs better.}
+		inputs with higher variance, Ridge regression performs better.}
 \end{center}
 
 
@@ -536,7 +536,7 @@ So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
 
 \subsubsection{Applying SVD to Least Squares and Ridge Regression}
 
-\paragraph{Least Squares.} The least squares fitted vector can be written as 
+\paragraph{Least Squares.} The least squares fitted vector can be written as
 \begin{equation}
 	\begin{split}
 		\hat\yy^\ls &= \XX\hat\beta^\ls \\
@@ -546,7 +546,7 @@ So these are the eigendecompositions of $\XX^T\XX$ and $\XX\XX^T$ respectively.
 \end{equation}
 In other words, $\UU\UU^T$ is another hat matrix.
 
-\paragraph{Ridge.} Now for ridge regression, the fitted vector can be written as 
+\paragraph{Ridge.} Now for ridge regression, the fitted vector can be written as
 \begin{equation}
 	\begin{split}
 		\hat\yy^\ridge &= \XX\hat\beta^\ridge \\
@@ -639,7 +639,7 @@ So, now we can easily generalize.
 	\begin{algorithmic}
 		\State $\xx_0=\zz_0=\onevec$
 		\For{$j=1,\ldots,p$}
-		\State Regress $\xx_i$ on all \emph{previous} $\zz_0,\ldots,\zz_{j-1}$ 
+		\State Regress $\xx_i$ on all \emph{previous} $\zz_0,\ldots,\zz_{j-1}$
 		to get coefficients $\hat\gamma_{0,j},\ldots,\hat\gamma_{j-1,j}$ and
 		residual $\zz_j=\xx_j-\sum \gamma_{\ell,j}\zz_\ell$.
 		\EndFor
@@ -663,7 +663,7 @@ $\zz_j$, and then adjust $\yy$ for $\zz_j$.
 
 Before, we saw that the variance-covariance matrix of the estimates is
 \[\Var{[\hat\beta]}=(\XX^T\XX)^{-1}\sigma^2.\]
-An alternative formular of the estimates variance is 
+An alternative formular of the estimates variance is
 \[\Var{[\hat\beta_j]}=\frac{\sigma^2}{\ip{\zz_j}{\zz_j}}.\]
 
 Notice that if $\xx_j$ is very correlated with one or more other parameters,
@@ -677,7 +677,7 @@ $\hat\gamma_{\ell,j}$, then we get
 \[\XX=\ZZ\GG,\] where $\GG$ is upper triangular. Notice that although the
 columns of $\ZZ$ are orthogonal, they are not also orthonormal. By dividing each
 row with its length $\|\zz_i\|$ we can make them orthonormal. This is expressed
-by introducing the matrix $\DD=\diag(\|\zz_0\|,\ldots,\|\zz_p\|)$ and having 
+by introducing the matrix $\DD=\diag(\|\zz_0\|,\ldots,\|\zz_p\|)$ and having
 \[\QQ = \ZZ\DD^{-1}\] and \[\RR=\DD\GG.\] Now, $\QQ$ is orthonormal, and so,
 $\QQ^T\QQ=\II$ and $\RR$ remains upper triangular.
 
@@ -689,17 +689,17 @@ the first derivative
 		&= \RR^T\QQ^T\yy - \RR^T\RR\beta.
 	\end{split}
 \end{equation}
-We get 
+We get
 \[\RR^T\RR\beta = \RR^T\QQ^T\yy\implies \RR\beta = \QQ^T\yy\implies \hat\beta =
-\RR^{-1}\QQ^T\yy.\] Of course, this assumes that $\RR^T$ (and therefore $\RR$)
+	\RR^{-1}\QQ^T\yy.\] Of course, this assumes that $\RR^T$ (and therefore $\RR$)
 is invertible. Moreover, the hat matrix can now be computed as
 \[\hat\yy=\XX\hat\beta=\XX\RR^{-1}\QQ^T\yy=\QQ\RR\RR^{-1}\QQ^T\yy=\QQ\QQ^T\yy =
-\HH\yy.\]
+	\HH\yy.\]
 
 
 \section{Principal Components}
 Let $\XX=\UU\DD\VV^T$ be the SVD decomposition of $\XX$. The eigendecomposition
-of $\XX^T\XX$ is 
+of $\XX^T\XX$ is
 \[\XX^T\XX=\VV\DD^T\DD\VV^T,\] so the column vectors of $\VV$ are the
 eigenvectors of $\XX^T\XX$ and the corresponding eigenvalues are the elements of
 the diagonal of $\DD^T\DD$. The columns $\vv_j$ of $\VV$ are also called the
@@ -715,20 +715,30 @@ In other words,
 \paragraph{Takeaways.}
 \begin{center}
 	\emph{ The small singular values correspond to directions in the column
-	space of $\XX$ having small variance. Ridge regression shrinks these
-	directions the most.}
+		space of $\XX$ having small variance. Ridge regression shrinks these
+		directions the most.}
 \end{center}
 
 \begin{center}
 	\emph{ Conversely, the eigenvectors with the largest eigenvalues of the
-	(sample) covariance matrix correspond the directions along which $\XX$ has
-	the maximum variance.}
+		(sample) covariance matrix correspond the directions along which $\XX$ has
+		the maximum variance.}
 \end{center}
 
 \section{A Few Notes on the Lasso}
 The lasso solution is:
 \[
 	\hat\beta^\lasso=\argmin_\beta \left(\frac{1}{2}\sum_{i=1}^N \left(y_i - \beta_0 - \sum_{j=1}^p x_{ij}\beta_j\right)^2 + \lambda\sum_{j=1}^p|\beta_j|\right)\]
+
+Equivalently, it is the solution to the following quadratic programming problem:
+
+\begin{equation}
+	\begin{split}
+		\hat\beta^\lasso = &\argmin_\beta \sum_{i=1}^N \left(y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j\right)^2 \\
+		& \text{subject to} \sum_{j=1}^p|\beta_j| \le t.
+	\end{split}
+\end{equation}
+There is a one-to-one correspondence between $\lambda$ and $t$.
 
 Contrary to ridge regression, there is no analytical solution. Nonetheless, it
 can be found algorithmically with around the same complexity as ridge. This is
@@ -746,5 +756,24 @@ least squares coefficients. Intuitively, if $t>\|\hat\beta^\ls\|_1/2$, then the
 lasso solution is around half the least squares solution; i.e.,
 $\|\hat\beta^\lasso\|_1 \approx \|\hat\beta^\ls\|_1/2$. This is interesting. Can
 we prove this?
+
+\section{Subset Selection vs Ridge vs Lasso}
+Let $\hat\beta$ be the least squares solution and assume that the input $\XX$ is
+orthonormal. Then
+\begin{itemize}
+	\item $M$-subset selection keeps the $M$ largest coeefficients and zeroizes
+	      all the rest.
+	\item $\lambda$-ridge regression, shrinks by a factor of $\lambda$:
+	      $\hat\beta_j^\ridge= \hat\beta_j/(1+\lambda)$.
+	\item $\lambda$-lasso, shortens $\hat\beta$ by
+	      $\lambda$ and zeroizes it if it is already short.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{shrinkage-comparison.png}
+\end{figure}
+We see that the Lasso behaves like subset selection but additionally it shrinks
+the larger coefficients.
 
 \end{document}
