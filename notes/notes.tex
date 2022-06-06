@@ -776,4 +776,18 @@ orthonormal. Then
 We see that the Lasso behaves like subset selection but additionally it shrinks
 the larger coefficients.
 
+\section{Terminology}
+\begin{shaded}
+	\textbf{Likelihood - Prior - Posterior}
+	\begin{itemize}
+		\item The likelihood is the distribution of the data $\XX,\yy$ given a
+		fixed parameter of the system (for example, $\beta$ if the system is linear).
+		\item The prior is the distribution of the parameters.
+		\item The posterior is the distribution of the parameters given the data $\XX,\yy$.
+	\end{itemize}
+\end{shaded}
+Often it is convenient to work with the (minus) log of these distributions. For
+example, if the distributions follow some form of normal distribution, we end up
+working with the (positive) exponents only.
+
 \end{document}
