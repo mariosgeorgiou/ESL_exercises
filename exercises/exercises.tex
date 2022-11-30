@@ -84,7 +84,7 @@
 \vspace{0.2 cm}
 
 
-\subsection*{Exercises for Section 2}
+\section*{Exercises for Section 2}
 
 \begin{enumerate}
 	\item\label{ex:k-classes} Suppose each of $K$-classes has an associated
@@ -133,7 +133,7 @@
 
 		\begin{figure}[ht]
 			\label{fig:exercise2.2}
-			\includegraphics[width=8cm]{plots/ex22.png}
+			\includegraphics[width=8cm]{../plots/ex22.png}
 			\centering
 			\caption{In this example we have computed the Bayes decision
 			boundary when $X\sim U(0,1)^2$ and
@@ -478,19 +478,19 @@
 		      $f(S,\beta)=E_i[f(S_i,\beta)]$ be the function we want to minimize
 		      (in our case it will be the RSS or its normalized version, the
 		      mean squared error $\MSE$). Observe that for any $\beta$,
-			  \begin{equation}\label{eq:first is enough}
-				  \begin{split}
-					  E_S[f(S,\beta)] &= E_SE_i[f(S_i,\beta)] \\
-					  &= E_iE_S[f(S_i,\beta)] \\
-					  &= E_iE_S[f(S_1,\beta)] \\
-					  &= E_S[f(S_1,\beta)],
-				  \end{split}
-			  \end{equation}
-			  since all $S_i$ are i.i.d.. Let $\beta_S = \argmin_\beta
-		      f(S,\beta)$ and observe that for any $\beta$, it holds that
-		      $f(S,\beta_S)\le f(S,\beta)$. Let $T'$ be the set $T$, truncated
-		      or augmented by sampling more data to match the size of $S$. We
-		      have
+		      \begin{equation}\label{eq:first is enough}
+			      \begin{split}
+				      E_S[f(S,\beta)] &= E_SE_i[f(S_i,\beta)] \\
+				      &= E_iE_S[f(S_i,\beta)] \\
+				      &= E_iE_S[f(S_1,\beta)] \\
+				      &= E_S[f(S_1,\beta)],
+			      \end{split}
+		      \end{equation}
+		      since all $S_i$ are i.i.d.. Let $\beta_S = \argmin_\beta
+			      f(S,\beta)$ and observe that for any $\beta$, it holds that
+		      $f(S,\beta_S)\le f(S,\beta)$. Let $T'$ be the set $T$,
+		      truncated or augmented by sampling more data to match the size
+		      of $S$. We have
 		      \begin{equation}
 			      \begin{split}
 				      E_{S,T}[f(T,\beta_S)] &= E_S E_{T/S}[f(T,\beta_S)] \\
@@ -518,6 +518,35 @@
 	      \end{soln}
 \end{enumerate}
 
+\section*{Exercises for Section 3}
+
+\begin{enumerate}
+	\item\label{ex:3.1} Show that the $F$ statistic (3.13) for dropping a
+	single coefficient from a model is equal to the square of the
+	corresponding $z$-score (3.12).
+
+	\begin{soln}
+	  The $z$-score for dropping the variable $j\in[p]$ is defined as
+	  \[z_j=\frac{\hat\beta_j}{\hat\sigma\sqrt{v_j}},\] where $v_j$ is the
+	  $j$th diagonal element of $(\XX^T\XX)^{-1}$. Moreover, the $F$
+	  statistic for dropping variable $j$ is 
+	  \[F=\frac{(\RSS_0-\RSS_1)/(p_1-p_0)}{\RSS_1/(N-p_1-1)}=\frac{\RSS_0-\RSS_1}{\RSS_1/(N-p-1)}=\frac{\RSS_0-\RSS_1}{\hat\sigma^2}\]
+	
+	  Hence, it suffices to show that $\frac{\hat\beta_j^2}{u_j}=\RSS_0-\RSS_1$.
+
+	  Letting $V=(X^TX)^{-1}$, we have that $X^Ty=V^{-1}\hat\beta$ and
+
+	  \begin{equation}
+		\begin{split}
+			\RSS &= y^Ty-y^TX\hat\beta-\hat\beta^TX^Ty+\hat\beta^TX^TX\hat\beta \\
+			&= y^Ty - \hat\beta^T V^{-1}\hat\beta
+		\end{split}
+	  \end{equation}
+
+	  and $\RSS_0-\RSS_1=\hat\beta_0^TV_0^{-1}\hat\beta_0-\hat\beta_1^TV_1^{-1}\hat\beta_1$.
+	
+	\end{soln}
+\end{enumerate}
 
 
 \end{document}
