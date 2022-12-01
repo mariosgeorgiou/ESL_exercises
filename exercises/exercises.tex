@@ -53,6 +53,7 @@
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
 \newcommand{\XX}{\mathbf{X}} \newcommand{\YY}{\mathbf{Y}}
+\newcommand{\yy}{\mathbf{y}}
 \newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -543,8 +544,70 @@
 		\end{split}
 	  \end{equation}
 
-	  and $\RSS_0-\RSS_1=\hat\beta_0^TV_0^{-1}\hat\beta_0-\hat\beta_1^TV_1^{-1}\hat\beta_1$.
+	  and $\RSS_0-\RSS_1=\hat\beta_0^TV_0^{-1}\hat\beta_0-\hat\beta_1^TV_1^{-1}\hat\beta_1=\hat\beta_ju_j^{-1}\hat\beta_j$.
 	
+	\end{soln}
+
+	\item\label{ex:3.2} Given data on two variables $X$ and $Y$,
+	consider fitting a cubic polynomial regression model
+	$f(X)=\sum_{j=0}^3\beta_jX^j$. In addition to plotting the fitted curve,
+	you would like a 95\% confidence band about the curve. Consider the
+	following two approaches:
+	\begin{enumerate}
+		\item At each point $x_0$, form a 95\% confidence interval for 
+		the linear function $a^T\beta=\sum_{j=0}^3\beta_jx_0^j$.
+		\item For a 95\% confidence set for $\beta$ as in (3.15), which in 
+		turn generates confidence intervals for all $f(x_0)$.
+	\end{enumerate}
+	How do these approaches differ? Which band is liekly to be wider?
+	Conduct a small simulation experiment to compare the two methonds.
+
+	\begin{soln}
+		We consider design matrix
+		\begin{equation}
+			\XX = 
+			\begin{bmatrix}
+				1 & x_0 & x_0^2 & x_0^3 \\
+				1 & x_1 & x_1^2 & x_1^3 \\
+				\vdots & \vdots & \vdots & \vdots \\
+				1 & x_N & x_N^2 & x_N^3
+			\end{bmatrix}
+		\end{equation}
+		response matrix
+		\begin{equation}
+			\yy =
+			\begin{bmatrix}
+				y_0 \\
+				y_1 \\
+				\vdots \\
+				y_N
+			\end{bmatrix}
+		\end{equation}
+		and that the true model is $y=x^T\beta+\varepsilon$, where
+		$x^T=[1, x, x^2, x^3]$ and $\varepsilon\sim N(0,\sigma^2)$.
+
+		By applying ordinary least squares we get
+		\[\hat\beta=(X^TX)^{-1}X^T \yy\]
+		with $\hat\beta\sim N(\beta,(\XX^T\XX)^{-1}\sigma^2)$.
+		\begin{enumerate}
+			\item For
+		any $a^T$, it holds that $a^T\hat\beta$ is a univariate normal
+		distribution: 
+		\[a^T\hat\beta\sim N(a^T\beta,a^T(\XX^T\XX)^{-1}\sigma^2a).\]
+
+		Therefore, the confidence interval for $a^T\beta$ is 
+		\[C_{a^T\beta}=a^T\hat\beta\pm 2\cdot\hat\sigma\sqrt{a^T(\XX^T\XX)^{-1}a}\].
+
+			\item For a confidence interval of the whole $\beta$, 
+			we apply (3.15) and we get that 
+			\[C_{\beta}=\left\{\beta\middle|(\hat\beta-\beta)^T\XX^T\XX(\hat\beta-\beta)\le\hat\sigma^2{\chi_4^2}^{(1-0.05)}\right\}\]
+		
+			and therefore
+			\[C_{a^T\beta}=\left\{a^T\beta\middle|(\hat\beta-\beta)^T\XX^T\XX(\hat\beta-\beta)\le\hat\sigma^2{\chi_4^2}^{(1-0.05)}\right\}\]
+		\end{enumerate}
+
+		Since ${\chi_4^2}^{(1-0.05)}>2$, we expect the second band to be
+		wider.
 	\end{soln}
 \end{enumerate}
 
