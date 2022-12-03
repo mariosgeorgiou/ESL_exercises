@@ -53,7 +53,12 @@
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
 \newcommand{\XX}{\mathbf{X}} \newcommand{\YY}{\mathbf{Y}}
+\newcommand{\BB}{\mathbf{B}}
+\renewcommand{\AA}{\mathbf{A}}
+\newcommand{\VV}{\mathbf{V}}
+\newcommand{\DD}{\mathbf{D}}
 \newcommand{\yy}{\mathbf{y}}
+\newcommand{\cc}{\mathbf{c}}
 \newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -615,6 +620,70 @@
 			\centering
 			\caption{The actual curve together with the two confidence bands.}
 		\end{figure}
+	\end{soln}
+
+	\item\label{ex:3.3} Gauss-Markov theorem:
+	\begin{enumerate}
+		\item Prove the Gauss-Markov theorem: the least squares
+		estimate of a parameter $a^T\beta$ has variance no bigger
+		than that of any other linear unbiased estimate of $a^T\beta$.
+
+		\item The matrix inequality $\BB\preceq\AA$ holds if $\AA-\BB$
+		is positive semidefinite. Show that if $\hat\VV$ is the variance-covariance
+		matrix of the least squares estimate $\beta$ and $\tilde\VV$ is the
+		variance-covariance matrix of any other linear unbiased estimate, then
+		$\hat\VV\preceq\tilde\VV$.
+	\end{enumerate} 
+
+	\begin{soln}
+		\begin{enumerate}
+			\item Let $\hat\beta=(\XX^T\XX)^{-1}\XX^T\yy$ be the least squares
+			estimate and consider the estimator of $a^T\beta$ to be
+			\[\hat\theta=a^T\hat\beta=\cc_0^T\yy.\]
+			Now consider any other unbiased linear estimator $\tilde\theta=\cc^T\yy$ of
+			$a^T\beta$; i.e., $E[\cc^T\yy]=a^T\beta$.
+			We write $\cc^T=\cc_0^T+d^T$ for some $d$ and we have:
+			\begin{equation}
+				\begin{split}
+					E[\tilde\theta] &= E[(\cc_0^T+d^T)\yy] \\
+					&=E[a^T(\XX^T\XX)^{-1}\XX^T\yy + d^T\yy] \\
+					&=a^T\beta + d^TE[\yy] \\
+					&=a^T\beta + d^T\XX\beta  
+				\end{split}
+			\end{equation}
+			From which, we conclude that \[d^T\XX=0\].
+
+			We now compute the variance of $\tilde\theta$:
+			\begin{equation}
+				\begin{split}
+					\Var[\tilde\theta] &= \Var[\cc^T\yy] \\
+					&= \cc^T\Var[\yy]\cc \\
+					&= \sigma^2\cc^T\cc \\
+					&= \sigma^2(\cc_0^T+d^T)(\cc_0+d) \\
+					&= \sigma^2(a^T(\XX^T\XX)^{-1}\XX^T+d^T)(\XX(\XX^T\XX)^{-1}a+d) \\
+					&= \sigma^2a^T(\XX^T\XX)^{-1} a + \sigma^2d^Td \\
+					&= a^T\sigma^2(\XX^T\XX)^{-1}a + \sigma^2d^Td \\
+					&= a^T\Var[\hat\beta]a + \sigma^2d^Td \\
+					&= \Var[\hat\theta] + \sigma^2\|d\|^2 \\
+					&\ge \Var[\hat\theta].
+				\end{split}
+			\end{equation}
+
+			\item We can show that this extends to the whole variance-covariance matrix.
+			Letting the above $a=I$ the identity matrix and $d=\DD$ any $(p+1)\times(p+1)$
+			matrix, we get that 
+			\begin{equation}
+				\begin{split}
+					\Var[\tilde\beta] &= \Var[\hat\beta] + \sigma^2\DD^T\DD
+				\end{split}
+			\end{equation}
+			Therefore, $\Var[\hat\beta]-\Var[\tilde\beta] = \sigma^2\DD^T\DD$ is 
+			a Gram matrix and therefore positive-semidefinite.
+		\end{enumerate}
+
+		\paragraph{Note.} Another way of stating the Gauss-Markov theorem is that 
+		the least squares estimator $\hat\beta$ is \emph{BLUE}: best linear
+		unbiased estimator.
 	\end{soln}
 \end{enumerate}
 
