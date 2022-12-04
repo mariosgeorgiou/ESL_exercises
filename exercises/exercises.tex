@@ -59,6 +59,7 @@
 \newcommand{\DD}{\mathbf{D}}
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\cc}{\mathbf{c}}
+\newcommand{\zz}{\mathbf{z}}
 \newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -684,6 +685,16 @@
 		\paragraph{Note.} Another way of stating the Gauss-Markov theorem is that 
 		the least squares estimator $\hat\beta$ is \emph{BLUE}: best linear
 		unbiased estimator.
+	\end{soln}
+
+	\item\label{ex:3.4} Show how the vector of least squares coefficients can 
+	be obtained from a single pass of the Gram-Schmidt procedure (Algorithm 3.1).
+	Represent your solution in terms of the QR decomposition of $\XX$.
+
+	\begin{soln}
+		After having computed the residual vectors $\zz_j$ using Gram-Schmidt, it is straightforward
+		to compute the least squares coefficients, by computing
+		\[\hat\beta_j=\frac{\ip{\zz_j}{\yy}}{\ip{\zz_j}{\zz_j}}.\]
 	\end{soln}
 \end{enumerate}
 
