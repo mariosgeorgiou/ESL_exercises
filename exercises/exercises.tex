@@ -57,6 +57,10 @@
 \renewcommand{\AA}{\mathbf{A}}
 \newcommand{\VV}{\mathbf{V}}
 \newcommand{\DD}{\mathbf{D}}
+\newcommand{\EE}{\mathbf{E}}
+\newcommand{\ZZ}{\mathbf{Z}}
+\newcommand{\RR}{\mathbf{R}}
+\newcommand{\QQ}{\mathbf{Q}}
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\cc}{\mathbf{c}}
 \newcommand{\zz}{\mathbf{z}}
@@ -695,6 +699,15 @@
 		After having computed the residual vectors $\zz_j$ using Gram-Schmidt, it is straightforward
 		to compute the least squares coefficients, by computing
 		\[\hat\beta_j=\frac{\ip{\zz_j}{\yy}}{\ip{\zz_j}{\zz_j}}.\]
+
+		In other words, $\hat\beta=(\DD\RR)^{-1}\ZZ^T\yy$ and
+		\begin{equation}
+			\begin{split}
+				\hat\beta &= (\DD\RR)^{-1}\ZZ^T\yy \\
+				&= \RR^{-1}\DD^{-1}\ZZ^T\yy \\
+				&= \RR^{-1}\QQ^T\yy
+			\end{split}
+		\end{equation}
 	\end{soln}
 \end{enumerate}
 
