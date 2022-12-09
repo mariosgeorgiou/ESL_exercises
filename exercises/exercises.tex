@@ -65,6 +65,8 @@
 \newcommand{\cc}{\mathbf{c}}
 \newcommand{\zz}{\mathbf{z}}
 \newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
+\newcommand{\ridge}{\textsf{ridge}}
+\newcommand{\lasso}{\textsf{lasso}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min} \DeclareMathOperator*{\Cov}{Cov}
@@ -708,6 +710,44 @@
 				&= \RR^{-1}\QQ^T\yy
 			\end{split}
 		\end{equation}
+	\end{soln}
+
+	\item\label{ex:3.5} Consider the ridge regression problem (3.41). Show that 
+	this problem is equivalent to the problem
+	\begin{equation}
+		\hat\beta^c = \argmin_{\beta^c}\left\{\sum_{i=1}^N\left[y_i-\beta_0^c-\sum_{j=1}^p(x_{ij}-\bar{x}_j)\beta_j^c\right]^2 + \lambda\sum_{j=1}^p{\beta_j^c}^2\right\}.
+		\tag{3.85}
+	\end{equation}
+	Give the correspondence between $\beta^c$ and the original $\beta$ in (3.41).
+	Characterize the solution to this modified criterion. Show that a similar
+	result holds for the lasso.
+
+	Recall that (3.41) is
+	\begin{equation}
+		\hat\beta^\ridge = \argmin_{\beta}\left\{\sum_{i=1}^N\left[y_i-\beta_0-\sum_{j=1}^px_{ij}\beta_j\right]^2 + \lambda\sum_{j=1}^p\beta_j^2\right\}.
+		\tag{3.41}
+	\end{equation}
+
+	\begin{soln}
+		Considering for a second the case where $p=1$, observe that by 
+		centering the $x_i$, we do not modify $\beta_1$ since $\beta_1$
+		estimates the slope and in both cases, the slope remains the same.
+		On the other hand, affects the intercept of the line, and hence 
+		$\beta_0$. Moreover, assuming that the model is linear,
+		the training data $(y_i,x_i-\bar x)$ would give the same model as 
+		the training data $(y_i+\bar y,x_i)$, since both data fall on the 
+		same line.
+
+		In the case of Ridge Regression, we do not attempt to constrain the
+		intercept, hence $\beta_0$ is free to be picked as the intercept of 
+		the line.
+
+		In the case where $p=2$, we shift the dependent variables towards some 
+		line, again without affecting the normal vector of the plane, only its
+		intercept. Similarly, this shift is equivalent to shifting all the
+		$y_i$ by a constant amount.
+
+		This idea generalizes to $p$ dimensions.
 	\end{soln}
 \end{enumerate}
 
