@@ -64,7 +64,9 @@
 \newcommand{\yy}{\mathbf{y}}
 \newcommand{\cc}{\mathbf{c}}
 \newcommand{\zz}{\mathbf{z}}
-\newcommand{\TT}{\mathcal{T}} \newcommand{\WW}{\mathbf{W}}
+\newcommand{\TT}{\mathcal{T}} 
+\newcommand{\WW}{\mathbf{W}}
+\newcommand{\II}{\mathbf{I}}
 \newcommand{\ridge}{\textsf{ridge}}
 \newcommand{\lasso}{\textsf{lasso}}
 
@@ -753,7 +755,17 @@
 
 		Observe that the above analysis \emph{assumes} that the true model is indeed 
 		linear.
+
+		A similar result holds for any other penalty function that does not take
+		into account the intercept $\beta_0$, hence also for Lasso.
 	\end{soln}
+
+	\item\label{ex:3.6} Show that the ridge regression estimate is the mean 
+	(and mode) of the posterior distribution, under a Gaussian prior
+	$\beta\sim N(0,\tau\II)$ and Gaussian sampling model 
+	$\yy\sim N(\XX\beta,\sigma^2\II)$. Find the relationship between the 
+	regularization parameter $\lambda$ in the ridge formula, and the variances 
+	$\tau$ and $\sigma^2$.
 \end{enumerate}
 
 
