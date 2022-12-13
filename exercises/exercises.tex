@@ -766,6 +766,30 @@
 	$\yy\sim N(\XX\beta,\sigma^2\II)$. Find the relationship between the 
 	regularization parameter $\lambda$ in the ridge formula, and the variances 
 	$\tau$ and $\sigma^2$.
+
+	\begin{soln}
+		An answer can be found at
+		\footnote[1]
+		{\url{https://statisticaloddsandends.wordpress.com/2018/12/29/bayesian-interpretation-of-ridge-regression/}}.
+
+		We first note that
+		$\beta\sim N(0,\tau\II)$ and
+		$\yy|\beta\sim N(\XX\beta,\sigma^2\II)$ hence the evidence $\yy$
+		follows the distribution $\yy\sim N(0,\sigma^2\II+\XX^T\XX\tau)$.
+		As usual, the evidence in Bayes Theorem is just a normalization factor 
+		and can be ignored. We have 
+		\[p(\beta)\varpropto \exp\left[-\frac{1}{2\tau}\|\beta\|^2\right]\]
+		and
+		\[p(\yy|\beta)\varpropto \exp\left[-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right].\]
+
+		We then have
+		\begin{equation}
+			\begin{split}
+				p(\beta|\yy) & \varpropto p(\beta)\cdot p(\yy|\beta) \\
+				&\varpropto \exp\left[-\frac{1}{2\tau}\|\beta\|^2-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right]
+			\end{split}
+		\end{equation}
+	\end{soln}
 \end{enumerate}
 
 
