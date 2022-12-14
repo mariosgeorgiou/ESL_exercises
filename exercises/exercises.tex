@@ -777,7 +777,8 @@
 		$\yy|\beta\sim N(\XX\beta,\sigma^2\II)$ hence the evidence $\yy$
 		follows the distribution $\yy\sim N(0,\sigma^2\II+\XX^T\XX\tau)$.
 		As usual, the evidence in Bayes Theorem is just a normalization factor 
-		and can be ignored. We have 
+		and can be ignored. Moreover, we consider $\XX$ to be fixed so the 
+		only randomness in the systmem is through $\beta$ and $\yy$. We have 
 		\[p(\beta)\varpropto \exp\left[-\frac{1}{2\tau}\|\beta\|^2\right]\]
 		and
 		\[p(\yy|\beta)\varpropto \exp\left[-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right].\]
@@ -789,6 +790,36 @@
 				&\varpropto \exp\left[-\frac{1}{2\tau}\|\beta\|^2-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right]
 			\end{split}
 		\end{equation}
+
+		We can now compute the mode of the posterior as
+		\begin{equation}
+			\begin{split}
+				\argmax_\beta p(\beta|\yy) &=
+					\argmax_\beta \exp\left[-\frac{1}{2\tau}\|\beta\|^2-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right] \\
+					&= \argmin_\beta \exp\left[\frac{1}{2\tau}\|\beta\|^2+\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right] \\
+					&= \argmin_\beta \left(\frac{1}{2\tau}\|\beta\|^2+\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right) \\
+					&= \argmin_\beta \left(\frac{\sigma^2}{\tau}\|\beta\|^2+(\yy-\XX\beta)^T(\yy-\XX\beta)\right) \\
+					&= \RSS\left(\frac{\sigma^2}{\tau},\beta\right),
+			\end{split}
+		\end{equation}
+		where, clearly, the last line is the ridge regression estimate.
+
+		\paragraph{Observations.}
+		\begin{enumerate}
+			\item Note that $\beta$ is centered at 0
+			so, intuitively, $\beta$ is more likely to be close to 0,
+			especially for small enough variance $\tau$. As a result,
+			Ridge is more biased towards zero. This makes sense since Ridge 
+			imposes penalty to any variable that is further from 0. At the 
+			extreme case, where $\tau = 0^+$, there is no variance at all in 
+			which case, Ridge penalizes infinitely the coefficients and it only 
+			permits the $0$ as a result.
+
+			\item At the opposite end, if $\tau=\infty$ or $\sigma=0$, the ridge 
+			estimate becomes the least squares estimate since there is no penalty.
+			As a result, the least squares estimate is the mode of the posterior 
+			when the prior is almost uniform or when $\yy=\XX\beta$ always.
+		\end{enumerate}
 	\end{soln}
 \end{enumerate}
 
