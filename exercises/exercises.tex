@@ -781,7 +781,8 @@
 		only randomness in the systmem is through $\beta$ and $\yy$. We have 
 		\[p(\beta)\varpropto \exp\left[-\frac{1}{2\tau}\|\beta\|^2\right]\]
 		and
-		\[p(\yy|\beta)\varpropto \exp\left[-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right].\]
+		\[p(\yy|\beta)\varpropto \exp\left[-\frac{1}{2\sigma^2}(\yy-\XX\beta)^T(\yy-\XX\beta)\right],\]
+		where the normalizing constants are positive and independent of $\beta,\yy$.
 
 		We then have
 		\begin{equation}
@@ -802,7 +803,8 @@
 					&= \RSS\left(\frac{\sigma^2}{\tau},\beta\right),
 			\end{split}
 		\end{equation}
-		where, clearly, the last line is the ridge regression estimate.
+		where the last line is the ridge regression estimate with penalty factor
+		$\frac{\sigma^2}{\tau}$. 
 
 		\paragraph{Observations.}
 		\begin{enumerate}
